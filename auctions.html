@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مزايد سيارات - المزادات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-header-top">
+      <div>
+        <h1 class="page-title">المزادات</h1>
+        <p class="page-subtitle">4 مزاد · 2 مباشر</p>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn" onclick="location.href='search.html'"><i class="fas fa-search"></i></button>
+        <button class="header-btn accent-btn" onclick="location.href='add.html'"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- STATUS CARDS -->
+  <div class="status-cards">
+    <div class="status-card sc-red"><i class="fas fa-broadcast-tower"></i><div class="num">2</div><div class="label">مباشر</div></div>
+    <div class="status-card sc-orange"><i class="fas fa-fire"></i><div class="num">1</div><div class="label">ينتهي</div></div>
+    <div class="status-card sc-blue"><i class="fas fa-hourglass-start"></i><div class="num">1</div><div class="label">قادمة</div></div>
+    <div class="status-card sc-teal"><i class="fas fa-check-circle"></i><div class="num">1</div><div class="label">منتهية</div></div>
+  </div>
+
+  <!-- FILTER CHIPS -->
+  <div class="filter-bar">
+    <div class="filter-chips" id="filterChips">
+      <button class="chip active" data-filter="all"><i class="fas fa-th"></i> الكل</button>
+      <button class="chip" data-filter="live"><i class="fas fa-broadcast-tower"></i> مباشر</button>
+      <button class="chip" data-filter="ending"><i class="fas fa-fire"></i> ينتهي قريباً</button>
+      <button class="chip" data-filter="upcoming"><i class="fas fa-clock"></i> قادم</button>
+      <button class="chip" data-filter="ended"><i class="fas fa-check-circle"></i> منتهي</button>
+    </div>
+    <button class="filter-sort-btn" onclick="toggleSort()"><i class="fas fa-sort-amount-down"></i></button>
+  </div>
+
+  <!-- AUCTION GRID -->
+  <div class="auction-grid" id="auctionGrid">
+    
+    <!-- Live Auction 1 -->
+    <div class="auction-card" data-status="live" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&h=400&fit=crop" alt="لاندكروزر">
+        <div class="auction-badges">
+          <span class="auction-badge ab-live">مباشر</span>
+          <span class="auction-badge ab-featured">مميز</span>
+        </div>
+        <div class="auction-timer">
+          <i class="fas fa-clock"></i>
+          ينتهي خلال
+          <span class="timer-value" data-time="86400">23:59:02</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">تويوتا لاندكروزر GXR 2020 - مزاد مباشر</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">المزايدة الحالية</div>
+            <div class="current-bid-amount">41,500,000 ر.ي</div>
+          </div>
+          <span class="bid-count">7 مزايدات</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2020</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 61k كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 2,140</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> صنعاء</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Auction 2 -->
+    <div class="auction-card" data-status="live" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop" alt="موستانج">
+        <div class="auction-badges">
+          <span class="auction-badge ab-live">مباشر</span>
+        </div>
+        <div class="auction-timer">
+          <i class="fas fa-clock"></i>
+          ينتهي خلال
+          <span class="timer-value" data-time="36000">09:55:12</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">فورد موستانج GT 2019 - سقف كامل</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">المزايدة الحالية</div>
+            <div class="current-bid-amount">35,200,000 ر.ي</div>
+          </div>
+          <span class="bid-count">12 مزايدة</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2019</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 88k كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 860</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> عدن</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ending Soon -->
+    <div class="auction-card" data-status="ending" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600&h=400&fit=crop" alt="كامري">
+        <div class="auction-badges">
+          <span class="auction-badge ab-ending">ينتهي</span>
+        </div>
+        <div class="auction-timer timer-urgent">
+          <i class="fas fa-fire"></i>
+          ينتهي خلال
+          <span class="timer-value" data-time="7200">01:58:30</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">تويوتا كامري 2022 - فل أوبشن</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">المزايدة الحالية</div>
+            <div class="current-bid-amount">28,800,000 ر.ي</div>
+          </div>
+          <span class="bid-count">5 مزايدات</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2022</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 35k كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 1,520</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> تعز</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming -->
+    <div class="auction-card" data-status="upcoming" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&h=400&fit=crop" alt="هيونداي">
+        <div class="auction-badges">
+          <span class="auction-badge ab-upcoming">قريباً</span>
+          <span class="auction-badge ab-featured">مميز</span>
+        </div>
+        <div class="auction-timer timer-upcoming">
+          <i class="fas fa-hourglass-start"></i>
+          يبدأ خلال
+          <span class="timer-value" data-time="172800">47:58:30</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">هيونداي توسان 2023 - وكالة</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">سعر البداية</div>
+            <div class="current-bid-amount">32,000,000 ر.ي</div>
+          </div>
+          <span class="bid-count">قريباً</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2023</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 0 كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 3,210</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> صنعاء</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ended -->
+    <div class="auction-card ended-card" data-status="ended" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&h=400&fit=crop" alt="مرسيدس">
+        <div class="auction-badges">
+          <span class="auction-badge ab-ended">منتهي</span>
+          <span class="auction-badge ab-sold">تم البيع</span>
+        </div>
+        <div class="auction-overlay-ended">
+          <i class="fas fa-gavel"></i>
+          <span>تم البيع</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">مرسيدس بنز C200 2023 - وكالة</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">سعر البيع</div>
+            <div class="current-bid-amount sold-price">78,500,000 ر.ي</div>
+          </div>
+          <span class="bid-count ended-count">15 مزايدة</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2023</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 12k كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 4,830</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> عدن</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Auction 3 -->
+    <div class="auction-card" data-status="live" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&h=400&fit=crop" alt="نيسان">
+        <div class="auction-badges">
+          <span class="auction-badge ab-live">مباشر</span>
+          <span class="auction-badge ab-featured">مميز</span>
+        </div>
+        <div class="auction-timer">
+          <i class="fas fa-clock"></i>
+          ينتهي خلال
+          <span class="timer-value" data-time="54000">14:58:45</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">نيسان باترول 2021 - سوبر سفاري</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">المزايدة الحالية</div>
+            <div class="current-bid-amount">55,000,000 ر.ي</div>
+          </div>
+          <span class="bid-count">9 مزايدات</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2021</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 45k كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 1,890</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> الحديدة</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="height:100px"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>الرئيسية</span></a>
+    <a href="auctions.html" class="nav-item active"><i class="fas fa-gavel"></i><span>المزادات</span></a>
+    <a href="add.html" class="nav-add"><i class="fas fa-plus"></i></a>
+    <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i><span>الرسائل</span></a>
+    <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>حسابي</span></a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>

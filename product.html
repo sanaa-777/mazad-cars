@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مزايد سيارات - تفاصيل المزاد</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1B2A4A;
+      --primary-light: #2D4A7A;
+      --accent: #F5A623;
+      --accent-dark: #E09000;
+      --live-red: #FF4757;
+      --success: #2ED573;
+      --whatsapp: #25D366;
+      --bg: #F0F2F5;
+      --card-bg: #FFFFFF;
+      --text-primary: #1A1A2E;
+      --text-secondary: #6B7280;
+      --text-light: #9CA3AF;
+      --border: #E5E7EB;
+      --shadow: 0 2px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-pill: 50px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-bottom: 90px;
+    }
+
+    /* ===== HERO IMAGE ===== */
+    .hero-section {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+    .hero-carousel {
+      display: flex;
+      height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .hero-carousel::-webkit-scrollbar { display: none; }
+    .hero-slide {
+      min-width: 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      position: relative;
+    }
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+    }
+    .hero-nav {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      left: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    .hero-nav-right, .hero-nav-left {
+      display: flex;
+      gap: 10px;
+    }
+    .hero-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      font-size: 16px;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .hero-btn:hover { background: white; transform: scale(1.05); }
+    .hero-btn.liked { color: var(--live-red); }
+    
+    .hero-dots {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+    }
+    .hero-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      transition: all 0.3s;
+    }
+    .hero-dot.active {
+      width: 24px;
+      border-radius: 4px;
+      background: white;
+    }
+    .image-counter {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+
+    /* ===== TITLE CARD ===== */
+    .title-card {
+      background: var(--card-bg);
+      margin: -20px 16px 0;
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+      z-index: 5;
+    }
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .car-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.4;
+      flex: 1;
+    }
+    .category-badge {
+      background: rgba(59,130,246,0.1);
+      color: #2563EB;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-right: 10px;
+    }
+    .location-views {
+      display: flex;
+      gap: 16px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+    .location-views i { margin-left: 4px; color: var(--text-light); }
+
+    /* ===== STATUS CARDS ===== */
+    .status-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 16px;
+    }
+    .status-card {
+      border-radius: var(--radius-sm);
+      padding: 14px 8px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .status-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    }
+    .status-card i { font-size: 20px; margin-bottom: 6px; display: block; }
+    .status-card .num { font-size: 22px; font-weight: 900; }
+    .status-card .label { font-size: 10px; opacity: 0.9; margin-top: 2px; }
+    .sc-teal { background: linear-gradient(135deg, #0D9488, #14B8A6); }
+    .sc-blue { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+    .sc-orange { background: linear-gradient(135deg, #EA580C, #F97316); }
+    .sc-red { background: linear-gradient(135deg, #DC2626, #EF4444); }
+
+    /* ===== BID SECTION ===== */
+    .bid-section {
+      background: var(--card-bg);
+      margin: 0 16px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .bid-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .bid-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .bid-badge {
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+    }
+    .bb-live { background: var(--live-red); display: flex; align-items: center; gap: 5px; }
+    .bb-live::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: white;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    .bb-soon { background: #3B82F6; }
+    .bb-ended { background: var(--text-secondary); }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .followers {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+    .followers i { color: var(--text-light); }
+    
+    .bid-body {
+      padding: 20px;
+      text-align: center;
+    }
+    .bid-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    .bid-amount {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+    .bid-amount .currency {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .bid-count {
+      font-size: 13px;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* ===== COUNTDOWN ===== */
+    .countdown-section {
+      background: var(--card-bg);
+      margin: 0 16px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .countdown-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .countdown-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--live-red);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    .countdown-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .countdown-card {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 16px 8px;
+      text-align: center;
+    }
+    .countdown-num {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--primary);
+      font-family: 'Tajawal', monospace;
+      line-height: 1;
+    }
+    .countdown-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ===== BID HISTORY ===== */
+    .bid-history {
+      background: var(--card-bg);
+      margin: 0 16px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .bid-history:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .bid-history-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .bid-history-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(59,130,246,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #3B82F6;
+      font-size: 16px;
+    }
+    .bid-history-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .bid-history-count {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .bid-history-arrow {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    /* ===== SPECS ===== */
+    .specs-section {
+      background: var(--card-bg);
+      margin: 0 16px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .specs-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .specs-title i { color: var(--accent); }
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .spec-item {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+    .spec-item:hover { background: #E8EBF0; }
+    .spec-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .si-year { background: rgba(59,130,246,0.12); color: #2563EB; }
+    .si-trans { background: rgba(139,92,246,0.12); color: #7C3AED; }
+    .si-fuel { background: rgba(245,166,35,0.12); color: #D97706; }
+    .si-make { background: rgba(16,185,129,0.12); color: #059669; }
+    .si-condition { background: rgba(236,72,153,0.12); color: #DB2777; }
+    .si-mileage { background: rgba(99,102,241,0.12); color: #4F46E5; }
+    .si-color { background: rgba(249,115,22,0.12); color: #EA580C; }
+    .si-body { background: rgba(6,182,212,0.12); color: #0891B2; }
+    .spec-info { flex: 1; min-width: 0; }
+    .spec-label {
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    .spec-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ===== DESCRIPTION ===== */
+    .desc-section {
+      background: var(--card-bg);
+      margin: 0 16px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .desc-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .desc-title i { color: var(--accent); }
+    .desc-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* ===== SELLER INFO ===== */
+    .seller-section {
+      background: var(--card-bg);
+      margin: 0 16px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .seller-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .seller-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .seller-info { flex: 1; }
+    .seller-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .seller-meta {
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      gap: 12px;
+      margin-top: 2px;
+    }
+    .seller-meta i { margin-left: 3px; }
+    .verified-badge {
+      background: rgba(16,185,129,0.1);
+      color: #059669;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ===== PAYMENT OPTIONS ===== */
+    .payment-section {
+      background: var(--card-bg);
+      margin: 0 16px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .payment-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .payment-title i { color: var(--accent); }
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .payment-method {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .payment-method:hover, .payment-method.selected {
+      border-color: var(--accent);
+      background: rgba(245,166,35,0.05);
+    }
+    .payment-method.selected {
+      position: relative;
+    }
+    .payment-method.selected::after {
+      content: '\f058';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      color: var(--accent);
+      font-size: 14px;
+    }
+    .payment-method i {
+      font-size: 24px;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .payment-method .pm-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .pm-cash i { color: #059669; }
+    .pm-card i { color: #2563EB; }
+    .pm-installment i { color: #7C3AED; }
+    
+    .payment-info {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .payment-info i {
+      color: var(--accent);
+      font-size: 18px;
+    }
+    .payment-info-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ===== SAFETY TIPS ===== */
+    .safety-section {
+      background: var(--card-bg);
+      margin: 0 16px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .safety-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .safety-title i { color: var(--accent); }
+    .safety-tips {
+      list-style: none;
+    }
+    .safety-tips li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .safety-tips li:last-child { border-bottom: none; }
+    .safety-tips li i { color: var(--success); font-size: 14px; }
+
+    /* ===== ACTION BUTTONS ===== */
+    .actions-section {
+      padding: 0 16px 16px;
+    }
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: white;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(245,166,35,0.4);
+      transition: all 0.2s;
+      margin-bottom: 12px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(245,166,35,0.5);
+    }
+    .btn-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .btn-secondary {
+      padding: 14px 8px;
+      border-radius: var(--radius-sm);
+      border: none;
+      color: white;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { transform: translateY(-2px); }
+    .btn-whatsapp { background: var(--whatsapp); box-shadow: 0 4px 12px rgba(37,211,102,0.3); }
+    .btn-call { background: var(--primary); box-shadow: 0 4px 12px rgba(27,42,74,0.3); }
+    .btn-message { background: #F97316; box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+
+    /* ===== BOTTOM NAV ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0 12px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      z-index: 100;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 4px 12px;
+      position: relative;
+    }
+    .nav-item i { font-size: 20px; color: var(--text-light); }
+    .nav-item span { font-size: 10px; color: var(--text-light); font-weight: 500; }
+    .nav-item.active i { color: var(--primary); }
+    .nav-item.active span { color: var(--primary); font-weight: 700; }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      width: 24px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 0 0 3px 3px;
+    }
+    .nav-add {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 26px;
+      box-shadow: 0 4px 16px rgba(245,166,35,0.4);
+      margin-top: -28px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 4px solid var(--card-bg);
+    }
+    .nav-add:hover { transform: scale(1.08); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (min-width: 768px) {
+      body { max-width: 480px; margin: 0 auto; box-shadow: 0 0 40px rgba(0,0,0,0.1); }
+      .bottom-nav { max-width: 480px; left: 50%; transform: translateX(-50%); }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate { animation: fadeInUp 0.5s ease forwards; }
+    .d1 { animation-delay: 0.1s; opacity: 0; }
+    .d2 { animation-delay: 0.2s; opacity: 0; }
+    .d3 { animation-delay: 0.3s; opacity: 0; }
+    .d4 { animation-delay: 0.4s; opacity: 0; }
+    .d5 { animation-delay: 0.5s; opacity: 0; }
+
+    ::-webkit-scrollbar { width: 0; height: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO IMAGE CAROUSEL -->
+  <div class="hero-section">
+    <div class="hero-carousel" id="heroCarousel">
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800&h=500&fit=crop" alt="Toyota Land Cruiser">
+      </div>
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=800&h=500&fit=crop" alt="Interior">
+      </div>
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&h=500&fit=crop" alt="Side view">
+      </div>
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=500&fit=crop" alt="Back view">
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-nav">
+      <div class="hero-nav-right">
+        <button class="hero-btn" onclick="history.back()"><i class="fas fa-arrow-right"></i></button>
+      </div>
+      <div class="hero-nav-left">
+        <button class="hero-btn" id="favBtn" onclick="toggleFav()"><i class="far fa-heart"></i></button>
+        <button class="hero-btn" onclick="share()"><i class="fas fa-share-alt"></i></button>
+      </div>
+    </div>
+    <div class="image-counter"><span id="imgNum">1</span>/4</div>
+    <div class="hero-dots">
+      <span class="hero-dot active"></span>
+      <span class="hero-dot"></span>
+      <span class="hero-dot"></span>
+      <span class="hero-dot"></span>
+    </div>
+  </div>
+
+  <!-- TITLE CARD -->
+  <div class="title-card animate d1">
+    <div class="title-row">
+      <h1 class="car-title">تويوتا لاندكروزر GXR 2020 - مزاد مباشر</h1>
+      <span class="category-badge">سوق السيارات</span>
+    </div>
+    <div class="location-views">
+      <span><i class="fas fa-map-marker-alt"></i> صنعاء، اليمن</span>
+      <span><i class="fas fa-eye"></i> 2,140 مشاهدة</span>
+      <span><i class="fas fa-calendar-alt"></i> قبل يومين</span>
+    </div>
+  </div>
+
+  <!-- STATUS CARDS -->
+  <div class="status-cards animate d1">
+    <div class="status-card sc-teal"><i class="fas fa-clock"></i><div class="num">1</div><div class="label">منتهية</div></div>
+    <div class="status-card sc-blue"><i class="fas fa-hourglass-start"></i><div class="num">1</div><div class="label">قادمة</div></div>
+    <div class="status-card sc-orange"><i class="fas fa-fire"></i><div class="num">1</div><div class="label">ينتهي</div></div>
+    <div class="status-card sc-red"><i class="fas fa-broadcast-tower"></i><div class="num">2</div><div class="label">مباشر</div></div>
+  </div>
+
+  <!-- BID SECTION -->
+  <div class="bid-section animate d2">
+    <div class="bid-header">
+      <div class="bid-status">
+        <span class="bid-badge bb-live">مباشر</span>
+      </div>
+      <div class="followers">
+        <i class="far fa-heart"></i>
+        <span>0 متابِع</span>
+      </div>
+    </div>
+    <div class="bid-body">
+      <div class="bid-label">المزايدة الحالية</div>
+      <div class="bid-amount">41,500,000 <span class="currency">ر.ي</span></div>
+      <div class="bid-count">7 مزايدات</div>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-section animate d2">
+    <div class="countdown-header">
+      <span class="countdown-dot"></span>
+      <span class="countdown-title">ينتهي خلال</span>
+    </div>
+    <div class="countdown-grid">
+      <div class="countdown-card">
+        <div class="countdown-num" id="cd-hours">21</div>
+        <div class="countdown-label">ساعة</div>
+      </div>
+      <div class="countdown-card">
+        <div class="countdown-num" id="cd-mins">58</div>
+        <div class="countdown-label">دقيقة</div>
+      </div>
+      <div class="countdown-card">
+        <div class="countdown-num" id="cd-secs">44</div>
+        <div class="countdown-label">ثانية</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BID HISTORY -->
+  <div class="bid-history animate d3" onclick="showBidHistory()">
+    <div class="bid-history-right">
+      <div class="bid-history-icon"><i class="fas fa-history"></i></div>
+      <div>
+        <div class="bid-history-text">سجل المزايدات</div>
+        <div class="bid-history-count">7 مزايدات</div>
+      </div>
+    </div>
+    <i class="fas fa-chevron-left bid-history-arrow"></i>
+  </div>
+
+  <!-- SPECS -->
+  <div class="specs-section animate d3">
+    <div class="specs-title"><i class="fas fa-cog"></i> مواصفات السيارة</div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-icon si-year"><i class="fas fa-calendar-alt"></i></div>
+        <div class="spec-info">
+          <div class="spec-label">سنة الصنع</div>
+          <div class="spec-value">2020</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon si-trans"><i class="fas fa-cogs"></i></div>
+        <div class="spec-info">
+          <div class="spec-label">ناقل الحركة</div>
+          <div class="spec-value">أوتوماتيك</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon si-fuel"><i class="fas fa-gas-pump"></i></div>
+        <div class="spec-info">
+          <div class="spec-label">نوع الوقود</div>
+          <div class="spec-value">بنزين</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon si-make"><i class="fas fa-industry"></i></div>
+        <div class="spec-info">
+          <div class="spec-label">الشركة المصنعة</div>
+          <div class="spec-value">تويوتا</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon si-condition"><i class="fas fa-check-circle"></i></div>
+        <div class="spec-info">
+          <div class="spec-label">حالة السيارة</div>
+          <div class="spec-value">مستعملة</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon si-mileage"><i class="fas fa-tachometer-alt"></i></div>
+        <div class="spec-info">
+          <div class="spec-label">المسافة المقطوعة</div>
+          <div class="spec-value">61,000 كم</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon si-color"><i class="fas fa-palette"></i></div>
+        <div class="spec-info">
+          <div class="spec-label">اللون الخارجي</div>
+          <div class="spec-value">أبيض لؤلؤي</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-icon si-body"><i class="fas fa-car-side"></i></div>
+        <div class="spec-info">
+          <div class="spec-label">نوع الهيكل</div>
+          <div class="spec-value">SUV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="desc-section animate d4">
+    <div class="desc-title"><i class="fas fa-align-right"></i> الوصف</div>
+    <div class="desc-text">
+      سيارة تويوتا لاندكروزر GXR موديل 2020 بحالة ممتازة. السيارة نظيفة جداً من الداخل والخارج، محرك 6 سلندر، دفع رباعي. جميع الصيانات التأسيسية تمت في الوكالة. السيارة مفحوصة وجاهزة للبيع. المزاد يبدأ خلال يوم واحد. لا تفوّت هذه الفرصة!
+    </div>
+  </div>
+
+  <!-- SELLER INFO -->
+  <div class="seller-section animate d4">
+    <div class="seller-row">
+      <div class="seller-avatar">أ</div>
+      <div class="seller-info">
+        <div class="seller-name">أحمد محمد</div>
+        <div class="seller-meta">
+          <span><i class="fas fa-star"></i> 4.8</span>
+          <span><i class="fas fa-car"></i> 12 إعلان</span>
+          <span><i class="fas fa-clock"></i> عضو منذ 2023</span>
+        </div>
+      </div>
+      <span class="verified-badge"><i class="fas fa-check-circle"></i> موثق</span>
+    </div>
+  </div>
+
+  <!-- PAYMENT OPTIONS -->
+  <div class="payment-section animate d5">
+    <div class="payment-title"><i class="fas fa-credit-card"></i> طرق الدفع</div>
+    <div class="payment-methods">
+      <div class="payment-method pm-cash selected" onclick="selectPayment(this)">
+        <i class="fas fa-money-bill-wave"></i>
+        <div class="pm-label">نقدي</div>
+      </div>
+      <div class="payment-method pm-card" onclick="selectPayment(this)">
+        <i class="fas fa-credit-card"></i>
+        <div class="pm-label">بطاقة بنكية</div>
+      </div>
+      <div class="payment-method pm-installment" onclick="selectPayment(this)">
+        <i class="fas fa-hand-holding-usd"></i>
+        <div class="pm-label">تقسيط</div>
+      </div>
+    </div>
+    <div class="payment-info">
+      <i class="fas fa-shield-alt"></i>
+      <div class="payment-info-text">
+        الدفع آمن ومضمون عبر منصة مزايد سيارات. يتم حفظ المبلغ في حساب ضمان حتى استلام السيارة والتأكد من حالتها.
+      </div>
+    </div>
+  </div>
+
+  <!-- SAFETY TIPS -->
+  <div class="safety-section animate d5">
+    <div class="safety-title"><i class="fas fa-shield-alt"></i> نصائح الأمان</div>
+    <ul class="safety-tips">
+      <li><i class="fas fa-check-circle"></i> افحص السيارة شخصياً قبل الدفع</li>
+      <li><i class="fas fa-check-circle"></i> استخدم نظام الدفع المضمون في التطبيق</li>
+      <li><i class="fas fa-check-circle"></i> تأكد من أوراق السيارة والسجل</li>
+      <li><i class="fas fa-check-circle"></i> لا تدفع خارج المنصة أبداً</li>
+    </ul>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="actions-section animate d5">
+    <button class="btn-primary" onclick="showInterest()">
+      <i class="fas fa-hand-paper"></i>
+      أنا مهتم بهذا المزاد
+    </button>
+    <div class="btn-row">
+      <button class="btn-secondary btn-whatsapp" onclick="openWhatsApp()">
+        <i class="fab fa-whatsapp"></i>
+        واتساب
+      </button>
+      <button class="btn-secondary btn-call" onclick="callSeller()">
+        <i class="fas fa-phone-alt"></i>
+        اتصال
+      </button>
+      <button class="btn-secondary btn-message" onclick="messageSeller()">
+        <i class="fas fa-comment-dots"></i>
+        مراسلة
+      </button>
+    </div>
+  </div>
+
+  <div style="height:20px"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>الرئيسية</span></a>
+    <a href="auctions.html" class="nav-item active"><i class="fas fa-gavel"></i><span>المزادات</span></a>
+    <a href="add.html" class="nav-add"><i class="fas fa-plus"></i></a>
+    <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i><span>الرسائل</span></a>
+    <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>حسابي</span></a>
+  </nav>
+
+  <script>
+    // ===== HERO CAROUSEL =====
+    const heroCarousel = document.getElementById('heroCarousel');
+    const heroDots = document.querySelectorAll('.hero-dot');
+    const imgNum = document.getElementById('imgNum');
+    
+    heroCarousel.addEventListener('scroll', () => {
+      const scrollPos = heroCarousel.scrollLeft;
+      const slideWidth = heroCarousel.querySelector('.hero-slide').offsetWidth;
+      const active = Math.round(scrollPos / slideWidth);
+      heroDots.forEach((d, i) => d.classList.toggle('active', i === active));
+      imgNum.textContent = active + 1;
+    });
+
+    // ===== COUNTDOWN TIMER =====
+    let totalSeconds = 21 * 3600 + 58 * 60 + 44;
+    function updateCountdown() {
+      if (totalSeconds <= 0) return;
+      totalSeconds--;
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+
+    // ===== FAVORITE TOGGLE =====
+    function toggleFav() {
+      const btn = document.getElementById('favBtn');
+      btn.classList.toggle('liked');
+      const icon = btn.querySelector('i');
+      icon.classList.toggle('far');
+      icon.classList.toggle('fas');
+    }
+
+    // ===== PAYMENT SELECTION =====
+    function selectPayment(el) {
+      document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    // ===== ACTIONS =====
+    function share() {
+      if (navigator.share) {
+        navigator.share({ title: 'تويوتا لاندكروزر GXR 2020', url: window.location.href });
+      }
+    }
+    function showInterest() {
+      alert('✅ تم تسجيل اهتمامك! سنُعلمك عند بدء المزاد.');
+    }
+    function openWhatsApp() {
+      window.open('https://wa.me/967700000000?text=مهتم بسيارة تويوتا لاندكروزر GXR 2020', '_blank');
+    }
+    function callSeller() {
+      window.open('tel:+967700000000');
+    }
+    function messageSeller() {
+      alert('💬 سيتم فتح نافذة المراسلة...');
+    }
+    function showBidHistory() {
+      alert('📋 سجل المزايدات:\n\n1. أحمد - 41,500,000 ر.ي\n2. محمد - 40,000,000 ر.ي\n3. سالم - 38,500,000 ر.ي\n4. خالد - 37,000,000 ر.ي\n5. عمر - 35,500,000 ر.ي\n6. علي - 34,000,000 ر.ي\n7. يوسف - 32,000,000 ر.ي');
+    }
+
+    // ===== ANIMATE ON SCROLL =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.animate').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'all 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+
+<script src="app.js"></script>
+</body>
+</html>

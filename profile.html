@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مزايد سيارات - حسابي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- PROFILE HEADER -->
+  <div class="profile-header">
+    <div class="profile-avatar">أ</div>
+    <div class="profile-name">أحمد محمد</div>
+    <div class="profile-meta">عضو منذ يناير 2024 · موثق ✓</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="profile-stats">
+    <div class="profile-stat">
+      <div class="num">12</div>
+      <div class="label">إعلاناتي</div>
+    </div>
+    <div class="profile-stat">
+      <div class="num">5</div>
+      <div class="label">مزادات نشطة</div>
+    </div>
+    <div class="profile-stat">
+      <div class="num">48</div>
+      <div class="label">مبيعات</div>
+    </div>
+  </div>
+
+  <!-- MY LISTINGS TABS -->
+  <div class="tabs" style="margin-top:16px">
+    <div class="tab active" data-tab="tab-active"><i class="fas fa-circle" style="color:var(--success);font-size:8px"></i> نشطة</div>
+    <div class="tab" data-tab="tab-sold"><i class="fas fa-check-circle" style="color:var(--accent)"></i> مباعة</div>
+    <div class="tab" data-tab="tab-saved"><i class="fas fa-heart" style="color:var(--live-red)"></i> محفوظة</div>
+  </div>
+
+  <!-- ACTIVE LISTINGS -->
+  <div class="tab-content active" id="tab-active">
+    <div class="auction-grid" style="padding:0 16px">
+      <div class="auction-card" onclick="location.href='product.html'">
+        <div class="auction-img-wrap">
+          <img class="auction-img" src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop" alt="">
+          <div class="auction-badges"><span class="auction-badge ab-live">مباشر</span></div>
+          <div class="auction-timer"><i class="fas fa-clock"></i> ينتهي خلال <span class="timer-value" data-time="86400">23:59:02</span></div>
+        </div>
+        <div class="auction-body">
+          <div class="auction-title">تويوتا لاندكروزر GXR 2020</div>
+          <div class="auction-bid-row">
+            <div><div class="current-bid-label">المزايدة الحالية</div><div class="current-bid-amount">41,500,000 ر.ي</div></div>
+            <span class="bid-count">7 مزايدات</span>
+          </div>
+        </div>
+      </div>
+      <div class="auction-card" onclick="location.href='product.html'">
+        <div class="auction-img-wrap">
+          <img class="auction-img" src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400&h=300&fit=crop" alt="">
+          <div class="auction-badges"><span class="auction-badge ab-auction">مزاد</span></div>
+          <div class="auction-timer"><i class="fas fa-clock"></i> يبدأ خلال <span class="timer-value" data-time="172800">47:58:30</span></div>
+        </div>
+        <div class="auction-body">
+          <div class="auction-title">تويوتا كامري 2022 فل أوبشن</div>
+          <div class="auction-bid-row">
+            <div><div class="current-bid-label">سعر البداية</div><div class="current-bid-amount">28,000,000 ر.ي</div></div>
+            <span class="bid-count">قريباً</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLD LISTINGS -->
+  <div class="tab-content" id="tab-sold">
+    <div class="auction-grid" style="padding:0 16px">
+      <div class="auction-card ended-card" onclick="location.href='product.html'">
+        <div class="auction-img-wrap">
+          <img class="auction-img" src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=300&fit=crop" alt="">
+          <div class="auction-badges"><span class="auction-badge ab-sold">تم البيع</span></div>
+        </div>
+        <div class="auction-body">
+          <div class="auction-title">مرسيدس بنز C200 2023</div>
+          <div class="auction-bid-row">
+            <div><div class="current-bid-label">سعر البيع</div><div class="current-bid-amount sold-price">78,500,000 ر.ي</div></div>
+            <span class="bid-count ended-count">15 مزايدة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAVED LISTINGS -->
+  <div class="tab-content" id="tab-saved">
+    <div class="auction-grid" style="padding:0 16px">
+      <div class="auction-card" onclick="location.href='product.html'">
+        <div class="auction-img-wrap">
+          <img class="auction-img" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop" alt="">
+          <div class="auction-badges"><span class="auction-badge ab-live">مباشر</span></div>
+        </div>
+        <div class="auction-body">
+          <div class="auction-title">فورد موستانج GT 2019</div>
+          <div class="auction-bid-row">
+            <div><div class="current-bid-label">المزايدة الحالية</div><div class="current-bid-amount">35,200,000 ر.ي</div></div>
+            <span class="bid-count">12 مزايدة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS MENU -->
+  <div class="menu-list">
+    <div class="menu-item" onclick="location.href='notifications.html'">
+      <div class="menu-icon mi-blue"><i class="fas fa-bell"></i></div>
+      <div class="menu-item-info">
+        <div class="menu-item-label">الإشعارات</div>
+        <div class="menu-item-desc">إدارة إشعاراتك</div>
+      </div>
+      <i class="fas fa-chevron-left menu-item-arrow"></i>
+    </div>
+    <div class="menu-item">
+      <div class="menu-icon mi-orange"><i class="fas fa-wallet"></i></div>
+      <div class="menu-item-info">
+        <div class="menu-item-label">المحفظة</div>
+        <div class="menu-item-desc">رصيدك ومعاملاتك المالية</div>
+      </div>
+      <i class="fas fa-chevron-left menu-item-arrow"></i>
+    </div>
+    <div class="menu-item">
+      <div class="menu-icon mi-green"><i class="fas fa-shield-alt"></i></div>
+      <div class="menu-item-info">
+        <div class="menu-item-label">التحقق من الهوية</div>
+        <div class="menu-item-desc">وثّق حسابك لزيادة الثقة</div>
+      </div>
+      <i class="fas fa-chevron-left menu-item-arrow"></i>
+    </div>
+    <div class="menu-item">
+      <div class="menu-icon mi-purple"><i class="fas fa-star"></i></div>
+      <div class="menu-item-info">
+        <div class="menu-item-label">التقييمات والمراجعات</div>
+        <div class="menu-item-desc">4.8 ⭐ (24 تقييم)</div>
+      </div>
+      <i class="fas fa-chevron-left menu-item-arrow"></i>
+    </div>
+    <div class="menu-item">
+      <div class="menu-icon mi-teal"><i class="fas fa-headset"></i></div>
+      <div class="menu-item-info">
+        <div class="menu-item-label">الدعم والمساعدة</div>
+        <div class="menu-item-desc">تواصل معنا</div>
+      </div>
+      <i class="fas fa-chevron-left menu-item-arrow"></i>
+    </div>
+    <div class="menu-item">
+      <div class="menu-icon mi-gray"><i class="fas fa-cog"></i></div>
+      <div class="menu-item-info">
+        <div class="menu-item-label">الإعدادات</div>
+        <div class="menu-item-desc">اللغة، الخصوصية، الحساب</div>
+      </div>
+      <i class="fas fa-chevron-left menu-item-arrow"></i>
+    </div>
+    <div class="menu-item" onclick="location.href='login.html'" style="color:var(--live-red)">
+      <div class="menu-icon mi-red"><i class="fas fa-sign-out-alt"></i></div>
+      <div class="menu-item-info">
+        <div class="menu-item-label" style="color:var(--live-red)">تسجيل الخروج</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:100px"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>الرئيسية</span></a>
+    <a href="auctions.html" class="nav-item"><i class="fas fa-gavel"></i><span>المزادات</span></a>
+    <a href="add.html" class="nav-add"><i class="fas fa-plus"></i></a>
+    <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i><span>الرسائل</span></a>
+    <a href="profile.html" class="nav-item active"><i class="fas fa-user"></i><span>حسابي</span></a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مزايد سيارات - الإشعارات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-header-top">
+      <a href="profile.html" class="back-btn"><i class="fas fa-arrow-right"></i></a>
+      <div class="page-header-center">
+        <h1 class="page-title">الإشعارات</h1>
+      </div>
+      <button class="header-btn" onclick="markAllRead()" title="تحديد الكل كمقروء"><i class="fas fa-check-double"></i></button>
+    </div>
+  </header>
+
+  <!-- NOTIFICATIONS -->
+  <div style="margin-top:8px">
+    
+    <div class="notif-item unread" onclick="location.href='product.html'">
+      <div class="notif-icon ni-bid"><i class="fas fa-gavel"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>مزايدة جديدة!</strong> أحمد قدم مزايدة بـ <strong>41,500,000 ر.ي</strong> على تويوتا لاندكروزر GXR</div>
+        <div class="notif-time">منذ 5 دقائق</div>
+      </div>
+    </div>
+
+    <div class="notif-item unread" onclick="location.href='product.html'">
+      <div class="notif-icon ni-alert"><i class="fas fa-fire"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>المزاد ينتهي قريباً!</strong> مزاد تويوتا كامري 2022 ينتهي خلال أقل من ساعتين</div>
+        <div class="notif-time">منذ 15 دقيقة</div>
+      </div>
+    </div>
+
+    <div class="notif-item unread" onclick="location.href='chat.html'">
+      <div class="notif-icon ni-bid"><i class="fas fa-comment"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>رسالة جديدة</strong> من محمد علي: "هل السيارة متوفرة؟"</div>
+        <div class="notif-time">منذ 20 دقيقة</div>
+      </div>
+    </div>
+
+    <div class="notif-item" onclick="location.href='product.html'">
+      <div class="notif-icon ni-win"><i class="fas fa-trophy"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>🎉 تهانينا!</strong> فزت بمزاد مرسيدس بنز C200 بسعر <strong>78,500,000 ر.ي</strong></div>
+        <div class="notif-time">منذ ساعة</div>
+      </div>
+    </div>
+
+    <div class="notif-item" onclick="location.href='product.html'">
+      <div class="notif-icon ni-alert"><i class="fas fa-arrow-up"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>تم تجاوز مزايدتك!</strong> شخص آخر قدم مزايدة أعلى على نissan باترول</div>
+        <div class="notif-time">منذ ساعتين</div>
+      </div>
+    </div>
+
+    <div class="notif-item">
+      <div class="notif-icon ni-system"><i class="fas fa-info-circle"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>تحديث المنصة</strong> تم إضافة ميزة الدفع بالتقسيط. جرّبها الآن!</div>
+        <div class="notif-time">منذ 5 ساعات</div>
+      </div>
+    </div>
+
+    <div class="notif-item" onclick="location.href='product.html'">
+      <div class="notif-icon ni-bid"><i class="fas fa-gavel"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>مزاد جديد!</strong> هيونداي توسان 2023 سيبدأ مزاده خلال 48 ساعة</div>
+        <div class="notif-time">أمس</div>
+      </div>
+    </div>
+
+    <div class="notif-item">
+      <div class="notif-icon ni-win"><i class="fas fa-star"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>تقييم جديد!</strong> عمر عبدالله قيّمك بـ ⭐⭐⭐⭐⭐</div>
+        <div class="notif-time">أمس</div>
+      </div>
+    </div>
+
+    <div class="notif-item">
+      <div class="notif-icon ni-system"><i class="fas fa-shield-alt"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>تم التحقق!</strong> حسابك الآن موثق وستظهر علامة ✓ بجانب اسمك</div>
+        <div class="notif-time">منذ يومين</div>
+      </div>
+    </div>
+
+    <div class="notif-item" onclick="location.href='product.html'">
+      <div class="notif-icon ni-alert"><i class="fas fa-clock"></i></div>
+      <div class="notif-content">
+        <div class="notif-text"><strong>تذكير:</strong> مزاد فورد موستانج GT يبدأ غداً الساعة 10 صباحاً</div>
+        <div class="notif-time">منذ يومين</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="height:100px"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>الرئيسية</span></a>
+    <a href="auctions.html" class="nav-item"><i class="fas fa-gavel"></i><span>المزادات</span></a>
+    <a href="add.html" class="nav-add"><i class="fas fa-plus"></i></a>
+    <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i><span>الرسائل</span></a>
+    <a href="profile.html" class="nav-item active"><i class="fas fa-user"></i><span>حسابي</span></a>
+  </nav>
+
+  <script src="app.js"></script>
+  <script>
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(item => {
+        item.classList.remove('unread');
+      });
+      alert('✅ تم تحديد جميع الإشعارات كمقروءة');
+    }
+  </script>
+</body>
+</html>

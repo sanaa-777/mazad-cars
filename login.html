@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مزايد سيارات - تسجيل الدخول</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .login-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      padding: 60px 30px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: rgba(245,166,35,0.1);
+      border-radius: 50%;
+    }
+    .login-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 250px;
+      height: 250px;
+      background: rgba(245,166,35,0.08);
+      border-radius: 50%;
+    }
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      background: var(--accent);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(245,166,35,0.4);
+      position: relative;
+      z-index: 2;
+    }
+    .login-logo i { font-size: 36px; color: white; }
+    .login-app-name {
+      font-size: 28px;
+      font-weight: 900;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+    .login-app-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 6px;
+      position: relative;
+      z-index: 2;
+    }
+    .login-form {
+      flex: 1;
+      padding: 30px 24px;
+      background: var(--bg);
+      margin-top: -20px;
+      border-radius: 20px 20px 0 0;
+      position: relative;
+      z-index: 3;
+    }
+    .login-tabs {
+      display: flex;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .login-tab {
+      flex: 1;
+      padding: 14px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+    }
+    .login-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--accent);
+    }
+    .login-input-group {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .login-input-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .login-input-wrap:last-child { margin-bottom: 0; }
+    .login-input-wrap .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 16px;
+    }
+    .login-input-wrap input {
+      width: 100%;
+      padding: 14px 44px 14px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+      background: var(--bg);
+    }
+    .login-input-wrap input:focus {
+      border-color: var(--accent);
+      background: white;
+    }
+    .forgot-link {
+      text-align: left;
+      margin-top: 10px;
+    }
+    .forgot-link a {
+      font-size: 13px;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: white;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(245,166,35,0.4);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(245,166,35,0.5);
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider span {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+    .social-btns {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .social-btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--card-bg);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      color: var(--text-primary);
+    }
+    .social-btn:hover { border-color: var(--accent); }
+    .social-btn i { font-size: 18px; }
+    .sb-google i { color: #EA4335; }
+    .sb-apple i { color: #000; }
+    .signup-link {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .signup-link a {
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+    .otp-section { display: none; }
+    .otp-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .otp-input {
+      width: 50px;
+      height: 56px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      font-family: 'Tajawal', monospace;
+      outline: none;
+      transition: all 0.2s;
+      background: var(--bg);
+    }
+    .otp-input:focus { border-color: var(--accent); background: white; }
+    .resend-link {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .resend-link a { color: var(--accent-dark); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+    
+    <!-- HERO -->
+    <div class="login-hero">
+      <div class="login-logo"><i class="fas fa-gavel"></i></div>
+      <div class="login-app-name">مزايد سيارات</div>
+      <div class="login-app-desc">منصة المزادات الآلية الأولى</div>
+    </div>
+
+    <!-- FORM -->
+    <div class="login-form">
+      
+      <!-- TABS -->
+      <div class="login-tabs">
+        <div class="login-tab active" onclick="switchLoginTab(this,'login')">تسجيل الدخول</div>
+        <div class="login-tab" onclick="switchLoginTab(this,'register')">حساب جديد</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginSection">
+        <div class="login-input-group">
+          <div class="login-input-wrap">
+            <i class="fas fa-phone input-icon"></i>
+            <input type="tel" placeholder="رقم الجوال" dir="ltr" style="text-align:left" id="loginPhone">
+          </div>
+          <div class="login-input-wrap">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" placeholder="كلمة المرور" id="loginPass">
+          </div>
+          <div class="forgot-link">
+            <a href="#">نسيت كلمة المرور؟</a>
+          </div>
+        </div>
+
+        <button class="login-btn" onclick="doLogin()">
+          <i class="fas fa-sign-in-alt"></i>
+          تسجيل الدخول
+        </button>
+
+        <div class="divider"><span>أو</span></div>
+
+        <div class="social-btns">
+          <button class="social-btn sb-google"><i class="fab fa-google"></i> Google</button>
+          <button class="social-btn sb-apple"><i class="fab fa-apple"></i> Apple</button>
+        </div>
+
+        <div class="signup-link">
+          ليس لديك حساب؟ <a href="#" onclick="switchLoginTab(document.querySelectorAll('.login-tab')[1],'register')">سجل الآن</a>
+        </div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="registerSection" style="display:none">
+        <div class="login-input-group">
+          <div class="login-input-wrap">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" placeholder="الاسم الكامل">
+          </div>
+          <div class="login-input-wrap">
+            <i class="fas fa-phone input-icon"></i>
+            <input type="tel" placeholder="رقم الجوال" dir="ltr" style="text-align:left">
+          </div>
+          <div class="login-input-wrap">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" placeholder="كلمة المرور">
+          </div>
+          <div class="login-input-wrap">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" placeholder="تأكيد كلمة المرور">
+          </div>
+        </div>
+
+        <button class="login-btn" onclick="doRegister()">
+          <i class="fas fa-user-plus"></i>
+          إنشاء حساب
+        </button>
+
+        <div class="divider"><span>أو</span></div>
+
+        <div class="social-btns">
+          <button class="social-btn sb-google"><i class="fab fa-google"></i> Google</button>
+          <button class="social-btn sb-apple"><i class="fab fa-apple"></i> Apple</button>
+        </div>
+
+        <div class="signup-link">
+          لديك حساب بالفعل؟ <a href="#" onclick="switchLoginTab(document.querySelectorAll('.login-tab')[0],'login')">سجّل دخولك</a>
+        </div>
+      </div>
+
+      <!-- OTP SECTION -->
+      <div id="otpSection" class="otp-section">
+        <div style="text-align:center;margin-bottom:20px">
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(59,130,246,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+            <i class="fas fa-sms" style="font-size:24px;color:#3B82F6"></i>
+          </div>
+          <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:6px">رمز التحقق</h3>
+          <p style="font-size:13px;color:var(--text-secondary)">أرسلنا رمز التحقق إلى <span id="otpPhone" style="font-weight:700;color:var(--text-primary)">777XXXXXX</span></p>
+        </div>
+        <div class="otp-inputs">
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this)">
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this)">
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this)">
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this)">
+        </div>
+        <button class="login-btn" onclick="verifyOTP()">
+          <i class="fas fa-check-circle"></i>
+          تحقق
+        </button>
+        <div class="resend-link">
+          لم يصلك الرمز؟ <a href="#" onclick="resendOTP()">إعادة الإرسال</a>
+          <span id="otpTimer" style="margin-right:8px;color:var(--text-light)">(00:59)</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function switchLoginTab(el, type) {
+      document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('loginSection').style.display = type === 'login' ? '' : 'none';
+      document.getElementById('registerSection').style.display = type === 'register' ? '' : 'none';
+      document.getElementById('otpSection').style.display = 'none';
+    }
+    function doLogin() {
+      const phone = document.getElementById('loginPhone').value;
+      if (!phone) { alert('أدخل رقم الجوال'); return; }
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('registerSection').style.display = 'none';
+      document.getElementById('otpSection').style.display = '';
+      document.getElementById('otpPhone').textContent = phone;
+      startOTPTimer();
+      document.querySelector('.otp-input').focus();
+    }
+    function doRegister() {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('registerSection').style.display = 'none';
+      document.getElementById('otpSection').style.display = '';
+      startOTPTimer();
+      document.querySelector('.otp-input').focus();
+    }
+    function otpMove(el) {
+      if (el.value.length === 1) {
+        const next = el.nextElementSibling;
+        if (next) next.focus();
+      }
+    }
+    function verifyOTP() {
+      window.location.href = 'index.html';
+    }
+    let otpInterval;
+    function startOTPTimer() {
+      let seconds = 59;
+      clearInterval(otpInterval);
+      otpInterval = setInterval(() => {
+        seconds--;
+        document.getElementById('otpTimer').textContent = `(00:${String(seconds).padStart(2,'0')})`;
+        if (seconds <= 0) clearInterval(otpInterval);
+      }, 1000);
+    }
+    function resendOTP() {
+      alert('✅ تم إعادة إرسال الرمز');
+      startOTPTimer();
+    }
+  </script>
+</body>
+</html>

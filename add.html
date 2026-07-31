@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مزايد سيارات - إضافة إعلان</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-header-top">
+      <a href="index.html" class="back-btn"><i class="fas fa-arrow-right"></i></a>
+      <div class="page-header-center">
+        <h1 class="page-title">إضافة إعلان</h1>
+      </div>
+      <div style="width:42px"></div>
+    </div>
+  </header>
+
+  <!-- TYPE SELECTION -->
+  <div class="form-section">
+    <div class="form-title"><i class="fas fa-tag"></i> نوع الإعلان</div>
+    <div class="tabs" style="margin:0;box-shadow:none;">
+      <div class="tab active" data-tab="tab-sale" onclick="switchType(this,'sale')"><i class="fas fa-car"></i> للبيع</div>
+      <div class="tab" data-tab="tab-auction" onclick="switchType(this,'auction')"><i class="fas fa-gavel"></i> مزاد</div>
+    </div>
+  </div>
+
+  <!-- CAR INFO -->
+  <div class="form-section">
+    <div class="form-title"><i class="fas fa-car"></i> معلومات السيارة</div>
+    
+    <div class="form-group">
+      <label class="form-label">عنوان الإعلان <span class="required">*</span></label>
+      <input type="text" class="form-input" placeholder="مثال: تويوتا كامري 2022 فل أوبشن">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">الشركة المصنعة <span class="required">*</span></label>
+        <select class="form-input">
+          <option value="">اختر الشركة</option>
+          <option>تويوتا</option>
+          <option>نيسان</option>
+          <option>هيونداي</option>
+          <option>لكزس</option>
+          <option>مرسيدس</option>
+          <option>بي إم دبليو</option>
+          <option>شيفروليه</option>
+          <option>فورد</option>
+          <option>كيا</option>
+          <option>هوندا</option>
+          <option>أخرى</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">الموديل <span class="required">*</span></label>
+        <input type="text" class="form-input" placeholder="مثال: كامري">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">سنة الصنع <span class="required">*</span></label>
+        <select class="form-input">
+          <option value="">اختر السنة</option>
+          <option>2026</option><option>2025</option><option>2024</option>
+          <option>2023</option><option>2022</option><option>2021</option>
+          <option>2020</option><option>2019</option><option>2018</option>
+          <option>2017</option><option>2016</option><option>2015</option>
+          <option>2014</option><option>2013</option><option>2012</option>
+          <option>2011</option><option>2010</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">المسافة المقطوعة <span class="required">*</span></label>
+        <input type="text" class="form-input" placeholder="مثال: 50,000 كم">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">نوع الوقود</label>
+        <select class="form-input">
+          <option value="">اختر النوع</option>
+          <option>بنزين</option>
+          <option>ديزل</option>
+          <option>هايبرد</option>
+          <option>كهرباء</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ناقل الحركة</label>
+        <select class="form-input">
+          <option value="">اختر النوع</option>
+          <option>أوتوماتيك</option>
+          <option>عادي</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">نوع الهيكل</label>
+        <select class="form-input">
+          <option value="">اختر النوع</option>
+          <option>سيدان</option>
+          <option>SUV</option>
+          <option>هاتشباك</option>
+          <option>كوبيه</option>
+          <option>بيك أب</option>
+          <option>فان</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">اللون</label>
+        <input type="text" class="form-input" placeholder="مثال: أبيض">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">حالة السيارة</label>
+      <select class="form-input">
+        <option value="">اختر الحالة</option>
+        <option>جديدة</option>
+        <option>مستعملة - ممتازة</option>
+        <option>مستعملة - جيدة</option>
+        <option>مستعملة - مقبولة</option>
+        <option>تحتاج صيانة</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="form-section">
+    <div class="form-title"><i class="fas fa-align-right"></i> الوصف</div>
+    <div class="form-group">
+      <textarea class="form-input" placeholder="اكتب وصفاً تفصيلياً عن السيارة: حالتها، إضافاتها، سبب البيع..."></textarea>
+      <div class="form-hint">كلما كان الوصف أ detailed، زادت فرص البيع</div>
+    </div>
+  </div>
+
+  <!-- PHOTOS -->
+  <div class="form-section">
+    <div class="form-title"><i class="fas fa-camera"></i> الصور</div>
+    <div class="upload-area">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>اضغط لرفع الصور</p>
+      <div class="hint">PNG, JPG حتى 5MB · الحد الأقصى 10 صور</div>
+    </div>
+    <div class="img-preview-grid"></div>
+  </div>
+
+  <!-- PRICE -->
+  <div class="form-section" id="priceSection">
+    <div class="form-title"><i class="fas fa-money-bill-wave"></i> السعر</div>
+    <div class="form-group">
+      <label class="form-label">السعر المطلوب (ر.ي) <span class="required">*</span></label>
+      <input type="number" class="form-input" placeholder="مثال: 35000000">
+      <div class="form-hint">ضع سعراً مناسباً لزيادة فرص البيع</div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">قابل للتفاوض</div>
+        <div class="toggle-desc">اسمح للمشترين بالتفاوض على السعر</div>
+      </div>
+      <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+    </div>
+  </div>
+
+  <!-- AUCTION SETTINGS -->
+  <div class="form-section" id="auctionSection" style="display:none">
+    <div class="form-title"><i class="fas fa-gavel"></i> إعدادات المزاد</div>
+    <div class="form-group">
+      <label class="form-label">سعر البداية (ر.ي) <span class="required">*</span></label>
+      <input type="number" class="form-input" placeholder="مثال: 25000000">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">مدة المزاد</label>
+        <select class="form-input">
+          <option>3 أيام</option>
+          <option>5 أيام</option>
+          <option selected>7 أيام</option>
+          <option>10 أيام</option>
+          <option>14 يوم</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">الحد الأدنى للزيادة</label>
+        <input type="number" class="form-input" placeholder="مثال: 500000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">سعر الشراء الفوري (اختياري)</label>
+      <input type="number" class="form-input" placeholder="سعر ينتهي عنده المزاد مباشرة">
+      <div class="form-hint">إذا دفع أحد هذا السعر، يفوز فوراً</div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">مزاد مباشر</div>
+        <div class="toggle-desc">فعّل البث المباشر أثناء المزاد</div>
+      </div>
+      <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+    </div>
+  </div>
+
+  <!-- LOCATION -->
+  <div class="form-section">
+    <div class="form-title"><i class="fas fa-map-marker-alt"></i> الموقع</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">المدينة <span class="required">*</span></label>
+        <select class="form-input">
+          <option value="">اختر المدينة</option>
+          <option>صنعاء</option>
+          <option>عدن</option>
+          <option>تعز</option>
+          <option>الحديدة</option>
+          <option>إب</option>
+          <option>ذمار</option>
+          <option>مأرب</option>
+          <option>حضرموت</option>
+          <option>أخرى</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">الحي</label>
+        <input type="text" class="form-input" placeholder="مثال: حي الصافية">
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="form-section">
+    <div class="form-title"><i class="fas fa-phone-alt"></i> معلومات التواصل</div>
+    <div class="form-group">
+      <label class="form-label">رقم الجوال <span class="required">*</span></label>
+      <input type="tel" class="form-input" placeholder="777XXXXXX" dir="ltr" style="text-align:left">
+      <div class="form-hint">سيظهر للمشترين المهتمين فقط</div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">عرض رقم الواتساب</div>
+        <div class="toggle-desc">اسمح للتواصل عبر واتساب</div>
+      </div>
+      <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">إشعارات المزاد</div>
+        <div class="toggle-desc">تصلك إشعار عند كل مزايدة جديدة</div>
+      </div>
+      <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div style="padding:0 16px 16px">
+    <button class="btn-primary" onclick="publishAd()">
+      <i class="fas fa-paper-plane"></i>
+      نشر الإعلان
+    </button>
+  </div>
+
+  <div style="height:100px"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>الرئيسية</span></a>
+    <a href="auctions.html" class="nav-item"><i class="fas fa-gavel"></i><span>المزادات</span></a>
+    <a href="add.html" class="nav-add"><i class="fas fa-plus"></i></a>
+    <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i><span>الرسائل</span></a>
+    <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>حسابي</span></a>
+  </nav>
+
+  <script src="app.js"></script>
+  <script>
+    function switchType(el, type) {
+      document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('priceSection').style.display = type === 'sale' ? '' : 'none';
+      document.getElementById('auctionSection').style.display = type === 'auction' ? '' : 'none';
+    }
+    function publishAd() {
+      alert('✅ تم نشر إعلانك بنجاح!\nسيظهر خلال دقائق بعد المراجعة.');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مزايد سيارات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1B2A4A;
+      --primary-light: #2D4A7A;
+      --accent: #F5A623;
+      --accent-dark: #E09000;
+      --live-red: #FF4757;
+      --success: #2ED573;
+      --bg: #F0F2F5;
+      --card-bg: #FFFFFF;
+      --text-primary: #1A1A2E;
+      --text-secondary: #6B7280;
+      --text-light: #9CA3AF;
+      --border: #E5E7EB;
+      --shadow: 0 2px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-pill: 50px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-bottom: 90px;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      padding: 20px 20px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 70% 30%, rgba(245,166,35,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(245,166,35,0.4);
+    }
+    .logo-text h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+      line-height: 1.2;
+    }
+    .logo-text p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 300;
+    }
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .header-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.2s;
+      backdrop-filter: blur(10px);
+    }
+    .header-btn:hover { background: rgba(255,255,255,0.2); }
+    .header-btn .badge {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 18px;
+      height: 18px;
+      background: var(--live-red);
+      border-radius: 50%;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--primary);
+    }
+
+    /* ===== SEARCH ===== */
+    .search-container {
+      margin-top: 18px;
+      position: relative;
+      z-index: 2;
+    }
+    .search-box {
+      width: 100%;
+      padding: 14px 48px 14px 20px;
+      border-radius: var(--radius);
+      border: none;
+      background: rgba(255,255,255,0.95);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 15px;
+      color: var(--text-primary);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      outline: none;
+      transition: all 0.3s;
+    }
+    .search-box::placeholder { color: var(--text-light); }
+    .search-box:focus { box-shadow: 0 4px 24px rgba(245,166,35,0.3); }
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 18px;
+    }
+
+    /* ===== STATS BAR ===== */
+    .stats-bar {
+      display: flex;
+      gap: 0;
+      margin: -15px 16px 0;
+      position: relative;
+      z-index: 3;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 14px 8px;
+      border-left: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-left: none; }
+    .stat-number {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ===== FEATURED CAROUSEL ===== */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 20px 14px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    .see-all {
+      font-size: 13px;
+      color: var(--accent-dark);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      padding: 0 20px;
+    }
+    .carousel {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+    }
+    .carousel::-webkit-scrollbar { display: none; }
+    
+    .featured-card {
+      min-width: calc(100% - 20px);
+      scroll-snap-align: start;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      background: var(--card-bg);
+      box-shadow: var(--shadow-lg);
+    }
+    .featured-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .featured-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.05) 100%);
+    }
+    .featured-badges {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      display: flex;
+      gap: 8px;
+    }
+    .badge-new {
+      background: var(--accent);
+      color: white;
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .badge-live {
+      background: var(--live-red);
+      color: white;
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      animation: pulse-live 2s infinite;
+    }
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .badge-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+    }
+    .featured-info {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      left: 16px;
+    }
+    .featured-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .featured-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .featured-price {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--accent);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .featured-price span {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.8);
+    }
+    .featured-meta {
+      display: flex;
+      gap: 14px;
+      color: rgba(255,255,255,0.85);
+      font-size: 12px;
+    }
+    .featured-meta i { margin-left: 4px; }
+
+    /* Carousel Dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: all 0.3s;
+    }
+    .dot.active {
+      width: 24px;
+      border-radius: 4px;
+      background: var(--accent);
+    }
+
+    /* ===== CATEGORIES ===== */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 0 20px;
+    }
+    .category-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .category-item:hover { transform: translateY(-3px); }
+    .category-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .category-item:hover .category-icon {
+      transform: scale(1.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+    .category-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* Category Colors */
+    .cat-cars { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+    .cat-parts { background: linear-gradient(135deg, #F97316, #EA580C); }
+    .cat-rental { background: linear-gradient(135deg, #10B981, #059669); }
+    .cat-accessories { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
+    .cat-insurance { background: linear-gradient(135deg, #06B6D4, #0891B2); }
+    .cat-maintenance { background: linear-gradient(135deg, #6366F1, #4F46E5); }
+    .cat-road { background: linear-gradient(135deg, #EC4899, #DB2777); }
+    .cat-more { background: linear-gradient(135deg, #64748B, #475569); }
+
+    /* ===== LIVE AUCTIONS ===== */
+    .live-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--live-red);
+      border-radius: 50%;
+      animation: pulse-live 1.5s infinite;
+    }
+
+    .auctions-scroll {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 0 20px 8px;
+    }
+    .auctions-scroll::-webkit-scrollbar { display: none; }
+
+    .auction-card {
+      min-width: 280px;
+      scroll-snap-align: start;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .auction-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .auction-img-wrap {
+      position: relative;
+      height: 160px;
+      overflow: hidden;
+    }
+    .auction-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .auction-card:hover .auction-img { transform: scale(1.05); }
+    .auction-badges {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 6px;
+    }
+    .auction-badge {
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+    .ab-featured { background: var(--accent); }
+    .ab-auction { background: var(--primary); }
+    .ab-live { background: var(--live-red); }
+
+    .auction-timer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.8), transparent);
+      padding: 20px 12px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .auction-timer i { color: var(--accent); font-size: 14px; }
+    .timer-value {
+      background: rgba(255,255,255,0.15);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: 'Tajawal', monospace;
+      font-weight: 800;
+      letter-spacing: 1px;
+      backdrop-filter: blur(4px);
+    }
+
+    .auction-body {
+      padding: 14px;
+    }
+    .auction-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .auction-bid-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .current-bid-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .current-bid-amount {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .bid-count {
+      font-size: 12px;
+      color: var(--accent-dark);
+      font-weight: 600;
+      background: rgba(245,166,35,0.1);
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .auction-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .meta-item i { color: var(--text-light); font-size: 13px; }
+
+    /* ===== LATEST ADS GRID ===== */
+    .ads-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      padding: 0 20px;
+    }
+    .ad-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .ad-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .ad-img-wrap {
+      position: relative;
+      height: 130px;
+      overflow: hidden;
+    }
+    .ad-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .ad-card:hover .ad-img { transform: scale(1.05); }
+    .ad-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 10px;
+      font-weight: 700;
+      color: white;
+    }
+    .ad-body {
+      padding: 12px;
+    }
+    .ad-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .ad-price {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .ad-price span {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+    .ad-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ad-location {
+      font-size: 11px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .ad-views {
+      font-size: 11px;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* ===== BOTTOM NAV ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0 12px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      z-index: 100;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+      padding: 4px 12px;
+      position: relative;
+    }
+    .nav-item i {
+      font-size: 20px;
+      color: var(--text-light);
+      transition: color 0.2s;
+    }
+    .nav-item span {
+      font-size: 10px;
+      color: var(--text-light);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-item.active i { color: var(--primary); }
+    .nav-item.active span { color: var(--primary); font-weight: 700; }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      width: 24px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 0 0 3px 3px;
+    }
+    .nav-add {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 26px;
+      box-shadow: 0 4px 16px rgba(245,166,35,0.4);
+      margin-top: -28px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 4px solid var(--card-bg);
+    }
+    .nav-add:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 24px rgba(245,166,35,0.5);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (min-width: 768px) {
+      body { max-width: 480px; margin: 0 auto; box-shadow: 0 0 40px rgba(0,0,0,0.1); }
+      .bottom-nav { max-width: 480px; left: 50%; transform: translateX(-50%); }
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 0; height: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fas fa-gavel"></i></div>
+        <div class="logo-text">
+          <h1>مزايد سيارات</h1>
+          <p>منصة المزادات الآلية الأولى</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn">
+          <i class="fas fa-bell"></i>
+          <span class="badge">3</span>
+        </button>
+        <button class="header-btn">
+          <i class="fas fa-heart"></i>
+        </button>
+      </div>
+    </div>
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-box" placeholder="ابحث عن سيارة، موديل، أو قطعة...">
+    </div>
+  </header>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar animate-in">
+    <div class="stat-item">
+      <div class="stat-number">1,247</div>
+      <div class="stat-label">إعلان نشط</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">89</div>
+      <div class="stat-label">مزاد مباشر</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">5,630</div>
+      <div class="stat-label">عضو مسجل</div>
+    </div>
+  </div>
+
+  <!-- FEATURED CAROUSEL -->
+  <div class="section-header animate-in delay-1">
+    <div class="section-title">
+      <span class="icon" style="background:rgba(245,166,35,0.15);color:var(--accent)"><i class="fas fa-star"></i></span>
+      أبرز المزادات
+    </div>
+    <span class="see-all">عرض الكل <i class="fas fa-chevron-left"></i></span>
+  </div>
+  <div class="carousel-wrapper animate-in delay-1">
+    <div class="carousel" id="featuredCarousel">
+      <!-- Card 1 -->
+      <div class="featured-card" onclick="location.href='product.html'">
+        <img class="featured-img" src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=800&h=400&fit=crop" alt="تويوتا كامري">
+        <div class="featured-overlay"></div>
+        <div class="featured-badges">
+          <span class="badge-live">مباشر</span>
+          <span class="badge-new">مميز</span>
+        </div>
+        <div class="featured-info">
+          <div class="featured-name">تويوتا كامري GLE 2024</div>
+          <div class="featured-details">
+            <div class="featured-price">38,000,000 <span>ر.ي</span></div>
+            <div class="featured-meta">
+              <span><i class="fas fa-clock"></i> 02:15:30</span>
+              <span><i class="fas fa-gavel"></i> 24 مزايدة</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="featured-card" onclick="location.href='product.html'">
+        <img class="featured-img" src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800&h=400&fit=crop" alt="لكزس">
+        <div class="featured-overlay"></div>
+        <div class="featured-badges">
+          <span class="badge-new">مميز</span>
+        </div>
+        <div class="featured-info">
+          <div class="featured-name">لكزس LX 570 2023</div>
+          <div class="featured-details">
+            <div class="featured-price">95,000,000 <span>ر.ي</span></div>
+            <div class="featured-meta">
+              <span><i class="fas fa-clock"></i> 05:42:10</span>
+              <span><i class="fas fa-gavel"></i> 18 مزايدة</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="featured-card" onclick="location.href='product.html'">
+        <img class="featured-img" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=400&fit=crop" alt="شيفروليه">
+        <div class="featured-overlay"></div>
+        <div class="featured-badges">
+          <span class="badge-live">مباشر</span>
+        </div>
+        <div class="featured-info">
+          <div class="featured-name">شيفروليه كامارو SS 2023</div>
+          <div class="featured-details">
+            <div class="featured-price">52,000,000 <span>ر.ي</span></div>
+            <div class="featured-meta">
+              <span><i class="fas fa-clock"></i> 01:08:45</span>
+              <span><i class="fas fa-gavel"></i> 31 مزايدة</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="section-header animate-in delay-2">
+    <div class="section-title">
+      <span class="icon" style="background:rgba(59,130,246,0.15);color:#3B82F6"><i class="fas fa-th-large"></i></span>
+      الأقسام الرئيسية
+    </div>
+    <span class="see-all">عرض الكل <i class="fas fa-chevron-left"></i></span>
+  </div>
+  <div class="categories-grid animate-in delay-2">
+    <div class="category-item">
+      <div class="category-icon cat-cars"><i class="fas fa-car"></i></div>
+      <span class="category-label">سوق السيارات</span>
+    </div>
+    <div class="category-item">
+      <div class="category-icon cat-parts"><i class="fas fa-wrench"></i></div>
+      <span class="category-label">قطع الغيار</span>
+    </div>
+    <div class="category-item">
+      <div class="category-icon cat-rental"><i class="fas fa-key"></i></div>
+      <span class="category-label">التأجير</span>
+    </div>
+    <div class="category-item">
+      <div class="category-icon cat-accessories"><i class="fas fa-gem"></i></div>
+      <span class="category-label">الإكسسوارات</span>
+    </div>
+    <div class="category-item">
+      <div class="category-icon cat-insurance"><i class="fas fa-shield-alt"></i></div>
+      <span class="category-label">التأمين</span>
+    </div>
+    <div class="category-item">
+      <div class="category-icon cat-maintenance"><i class="fas fa-tools"></i></div>
+      <span class="category-label">الصيانة</span>
+    </div>
+    <div class="category-item">
+      <div class="category-icon cat-road"><i class="fas fa-truck-pickup"></i></div>
+      <span class="category-label">خدمات الطريق</span>
+    </div>
+    <div class="category-item">
+      <div class="category-icon cat-more"><i class="fas fa-ellipsis-h"></i></div>
+      <span class="category-label">المزيد</span>
+    </div>
+  </div>
+
+  <!-- LIVE AUCTIONS -->
+  <div class="section-header animate-in delay-3">
+    <div class="live-header">
+      <div class="section-title">
+        <span class="icon" style="background:rgba(255,71,87,0.15);color:var(--live-red)"><i class="fas fa-broadcast-tower"></i></span>
+        مزادات مباشرة
+      </div>
+      <span class="live-dot"></span>
+    </div>
+    <span class="see-all">عرض الكل <i class="fas fa-chevron-left"></i></span>
+  </div>
+  <div class="auctions-scroll animate-in delay-3">
+    <!-- Auction 1 -->
+    <div class="auction-card" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&h=400&fit=crop" alt="لاندكروزر">
+        <div class="auction-badges">
+          <span class="auction-badge ab-live">مباشر</span>
+          <span class="auction-badge ab-featured">مميز</span>
+        </div>
+        <div class="auction-timer">
+          <i class="fas fa-clock"></i>
+          ينتهي خلال
+          <span class="timer-value" data-time="86400">23:59:02</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">تويوتا لاندكروزر GXR 2020 - مزاد مباشر</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">المزايدة الحالية</div>
+            <div class="current-bid-amount">41,500,000 ر.ي</div>
+          </div>
+          <span class="bid-count">7 مزايدات</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2020</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 61k كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 2,140</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> صنعاء</span>
+        </div>
+      </div>
+    </div>
+    <!-- Auction 2 -->
+    <div class="auction-card" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop" alt="موستانج">
+        <div class="auction-badges">
+          <span class="auction-badge ab-auction">مزاد</span>
+        </div>
+        <div class="auction-timer">
+          <i class="fas fa-clock"></i>
+          ينتهي خلال
+          <span class="timer-value" data-time="72000">19:58:30</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">فورد موستانج GT 2019 - سقف كامل</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">المزايدة الحالية</div>
+            <div class="current-bid-amount">35,200,000 ر.ي</div>
+          </div>
+          <span class="bid-count">12 مزايدة</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2019</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 88k كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 860</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> عدن</span>
+        </div>
+      </div>
+    </div>
+    <!-- Auction 3 -->
+    <div class="auction-card" onclick="location.href='product.html'">
+      <div class="auction-img-wrap">
+        <img class="auction-img" src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600&h=400&fit=crop" alt="كامري">
+        <div class="auction-badges">
+          <span class="auction-badge ab-live">مباشر</span>
+        </div>
+        <div class="auction-timer">
+          <i class="fas fa-clock"></i>
+          ينتهي خلال
+          <span class="timer-value" data-time="36000">09:55:12</span>
+        </div>
+      </div>
+      <div class="auction-body">
+        <div class="auction-title">تويوتا كامري 2022 - فل أوبشن</div>
+        <div class="auction-bid-row">
+          <div>
+            <div class="current-bid-label">المزايدة الحالية</div>
+            <div class="current-bid-amount">28,800,000 ر.ي</div>
+          </div>
+          <span class="bid-count">5 مزايدات</span>
+        </div>
+        <div class="auction-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2022</span>
+          <span class="meta-item"><i class="fas fa-tachometer-alt"></i> 35k كم</span>
+          <span class="meta-item"><i class="fas fa-eye"></i> 1,520</span>
+          <span class="meta-item"><i class="fas fa-map-marker-alt"></i> تعز</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LATEST ADS -->
+  <div class="section-header animate-in delay-4">
+    <div class="section-title">
+      <span class="icon" style="background:rgba(16,185,129,0.15);color:#10B981"><i class="fas fa-clock"></i></span>
+      أحدث الإعلانات
+    </div>
+    <span class="see-all">عرض الكل <i class="fas fa-chevron-left"></i></span>
+  </div>
+  <div class="ads-grid animate-in delay-4">
+    <!-- Ad 1 -->
+    <div class="ad-card" onclick="location.href='product.html'">
+      <div class="ad-img-wrap">
+        <img class="ad-img" src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop" alt="BMW X5">
+        <span class="ad-badge" style="background:var(--accent)">مميز</span>
+      </div>
+      <div class="ad-body">
+        <div class="ad-title">بي إم دبليو X5 2022 - حالة ممتازة</div>
+        <div class="ad-price">65,000,000 <span>ر.ي</span></div>
+        <div class="ad-meta">
+          <span class="ad-location"><i class="fas fa-map-marker-alt"></i> صنعاء</span>
+          <span class="ad-views"><i class="fas fa-eye"></i> 432</span>
+        </div>
+      </div>
+    </div>
+    <!-- Ad 2 -->
+    <div class="ad-card" onclick="location.href='product.html'">
+      <div class="ad-img-wrap">
+        <img class="ad-img" src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=300&fit=crop" alt="مرسيدس">
+        <span class="ad-badge" style="background:var(--live-red)">جديد</span>
+      </div>
+      <div class="ad-body">
+        <div class="ad-title">مرسيدس بنز C200 2023 - وكالة</div>
+        <div class="ad-price">78,500,000 <span>ر.ي</span></div>
+        <div class="ad-meta">
+          <span class="ad-location"><i class="fas fa-map-marker-alt"></i> عدن</span>
+          <span class="ad-views"><i class="fas fa-eye"></i> 891</span>
+        </div>
+      </div>
+    </div>
+    <!-- Ad 3 -->
+    <div class="ad-card" onclick="location.href='product.html'">
+      <div class="ad-img-wrap">
+        <img class="ad-img" src="https://images.unsplash.com/photo-1502877338535-766e1452684a?w=400&h=300&fit=crop" alt="نيسان">
+        <span class="ad-badge" style="background:var(--primary)">مزاد</span>
+      </div>
+      <div class="ad-body">
+        <div class="ad-title">نيسان باترول 2021 - سوبر سفاري</div>
+        <div class="ad-price">55,000,000 <span>ر.ي</span></div>
+        <div class="ad-meta">
+          <span class="ad-location"><i class="fas fa-map-marker-alt"></i> تعز</span>
+          <span class="ad-views"><i class="fas fa-eye"></i> 1,205</span>
+        </div>
+      </div>
+    </div>
+    <!-- Ad 4 -->
+    <div class="ad-card" onclick="location.href='product.html'">
+      <div class="ad-img-wrap">
+        <img class="ad-img" src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop" alt="هيونداي">
+        <span class="ad-badge" style="background:var(--accent)">مميز</span>
+      </div>
+      <div class="ad-body">
+        <div class="ad-title">هيونداي توسان 2023 - جديد</div>
+        <div class="ad-price">42,000,000 <span>ر.ي</span></div>
+        <div class="ad-meta">
+          <span class="ad-location"><i class="fas fa-map-marker-alt"></i> الحديدة</span>
+          <span class="ad-views"><i class="fas fa-eye"></i> 567</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:30px"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active"><i class="fas fa-home"></i><span>الرئيسية</span></a>
+    <a href="auctions.html" class="nav-item"><i class="fas fa-gavel"></i><span>المزادات</span></a>
+    <a href="add.html" class="nav-add"><i class="fas fa-plus"></i></a>
+    <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i><span>الرسائل</span></a>
+    <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>حسابي</span></a>
+  </nav>
+
+  <script>
+    // Countdown timers
+    function updateTimers() {
+      document.querySelectorAll('.timer-value').forEach(el => {
+        let seconds = parseInt(el.dataset.time);
+        if (seconds > 0) {
+          seconds--;
+          el.dataset.time = seconds;
+          const h = Math.floor(seconds / 3600);
+          const m = Math.floor((seconds % 3600) / 60);
+          const s = seconds % 60;
+          el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+      });
+    }
+    setInterval(updateTimers, 1000);
+
+    // Carousel dots
+    const carousel = document.getElementById('featuredCarousel');
+    const dots = document.querySelectorAll('.dot');
+    carousel.addEventListener('scroll', () => {
+      const scrollPos = carousel.scrollLeft;
+      const cardWidth = carousel.querySelector('.featured-card').offsetWidth + 14;
+      const active = Math.round(scrollPos / cardWidth);
+      dots.forEach((d, i) => {
+        d.classList.toggle('active', i === active);
+      });
+    });
+
+    // Nav interaction
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Animate on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-in').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'all 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+
+<script src="app.js"></script>
+</body>
+</html>

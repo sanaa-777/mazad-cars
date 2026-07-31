@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مزايد سيارات - الرسائل</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-header-top">
+      <div>
+        <h1 class="page-title">الرسائل</h1>
+        <p class="page-subtitle">3 محادثات جديدة</p>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MESSAGES LIST -->
+  <div class="msg-list" style="margin-top:16px">
+    
+    <div class="msg-item" onclick="location.href='chat.html'">
+      <div class="msg-avatar" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">م</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">محمد علي</span>
+          <span class="msg-time">منذ 5 دقائق</span>
+        </div>
+        <div class="msg-preview">هل السيارة متوفرة؟ أريد أن أزور...</div>
+      </div>
+      <div class="msg-badge">2</div>
+    </div>
+
+    <div class="msg-item" onclick="location.href='chat.html'">
+      <div class="msg-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">خ</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">خالد أحمد</span>
+          <span class="msg-time">منذ 20 دقيقة</span>
+        </div>
+        <div class="msg-preview">ممتاز! أتفقنا على السعر. متى يمكن...</div>
+      </div>
+      <div class="msg-badge">1</div>
+    </div>
+
+    <div class="msg-item" onclick="location.href='chat.html'">
+      <div class="msg-avatar" style="background:linear-gradient(135deg,#F97316,#EA580C)">س</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">سالم حسن</span>
+          <span class="msg-time">منذ ساعة</span>
+        </div>
+        <div class="msg-preview">هل تقبل التقسيط؟ أنا مهتم جداً...</div>
+      </div>
+    </div>
+
+    <div class="msg-item" onclick="location.href='chat.html'">
+      <div class="msg-avatar" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">ع</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">عمر عبدالله</span>
+          <span class="msg-time">أمس</span>
+        </div>
+        <div class="msg-preview">شكراً لك! السيارة في حالة ممتازة...</div>
+      </div>
+    </div>
+
+    <div class="msg-item" onclick="location.href='chat.html'">
+      <div class="msg-avatar" style="background:linear-gradient(135deg,#EC4899,#DB2777)">ن</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">ناصر محمد</span>
+          <span class="msg-time">منذ يومين</span>
+        </div>
+        <div class="msg-preview">هل يمكن فحص السيارة في الوكالة...</div>
+      </div>
+    </div>
+
+    <div class="msg-item" onclick="location.href='chat.html'">
+      <div class="msg-avatar" style="background:linear-gradient(135deg,#6366F1,#4F46E5)">ف</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">فهد سعيد</span>
+          <span class="msg-time">منذ 3 أيام</span>
+        </div>
+        <div class="msg-preview">تم البيع! شكراً لتفاوضك...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="height:100px"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>الرئيسية</span></a>
+    <a href="auctions.html" class="nav-item"><i class="fas fa-gavel"></i><span>المزادات</span></a>
+    <a href="add.html" class="nav-add"><i class="fas fa-plus"></i></a>
+    <a href="messages.html" class="nav-item active"><i class="fas fa-envelope"></i><span>الرسائل</span></a>
+    <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>حسابي</span></a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
