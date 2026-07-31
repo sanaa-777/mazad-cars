@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مزايد سيارات - لوحة التحكم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+
+  <!-- NOTIFICATIONS -->
+  <div id="notifContainer" style="position:fixed;top:20px;left:20px;z-index:9999;max-width:350px"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo"><i class="fas fa-gavel"></i></div>
+      <div class="sidebar-brand">
+        <h2>مزايد سيارات</h2>
+        <span>لوحة التحكم</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">الرئيسية</div>
+        <a href="#" class="nav-link active" data-page="page-dashboard" onclick="navigateTo('page-dashboard')">
+          <i class="fas fa-chart-pie"></i> لوحة التحكم
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">الإدارة</div>
+        <a href="#" class="nav-link" data-page="page-users" onclick="navigateTo('page-users')">
+          <i class="fas fa-users"></i> المستخدمين
+          <span class="nav-badge">5,630</span>
+        </a>
+        <a href="#" class="nav-link" data-page="page-auctions" onclick="navigateTo('page-auctions')">
+          <i class="fas fa-gavel"></i> المزادات
+          <span class="nav-badge success">12</span>
+        </a>
+        <a href="#" class="nav-link" data-page="page-content" onclick="navigateTo('page-content')">
+          <i class="fas fa-box"></i> الإعلانات
+          <span class="nav-badge warning">28</span>
+        </a>
+        <a href="#" class="nav-link" data-page="page-verification" onclick="navigateTo('page-verification')">
+          <i class="fas fa-shield-alt"></i> طلبات التوثيق
+          <span class="nav-badge">8</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">المالية</div>
+        <a href="#" class="nav-link" data-page="page-payments" onclick="navigateTo('page-payments')">
+          <i class="fas fa-credit-card"></i> المدفوعات
+        </a>
+        <a href="#" class="nav-link" data-page="page-reports" onclick="navigateTo('page-reports')">
+          <i class="fas fa-chart-bar"></i> التقارير
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">النظام</div>
+        <a href="#" class="nav-link" data-page="page-logs" onclick="navigateTo('page-logs')">
+          <i class="fas fa-history"></i> سجل العمليات
+        </a>
+        <a href="#" class="nav-link" data-page="page-settings" onclick="navigateTo('page-settings')">
+          <i class="fas fa-cog"></i> الإعدادات
+        </a>
+      </div>
+      <div class="nav-section" style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1)">
+        <a href="index.html" class="nav-link">
+          <i class="fas fa-external-link-alt"></i> عرض الموقع
+        </a>
+        <a href="login.html" class="nav-link" style="color:var(--admin-danger)">
+          <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-right">
+        <button class="topbar-btn" onclick="toggleSidebar()" style="display:none" id="menuBtn"><i class="fas fa-bars"></i></button>
+        <div class="topbar-title">
+          <h1 id="pageTitle">لوحة التحكم</h1>
+          <p id="pageDesc">نظرة عامة على المنصة</p>
+        </div>
+      </div>
+      <div class="topbar-left">
+        <div class="topbar-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="بحث سريع..." id="adminSearch">
+        </div>
+        <button class="topbar-btn" onclick="showModal('modalNotifications')">
+          <i class="fas fa-bell"></i>
+          <span class="badge-dot"></span>
+        </button>
+        <button class="topbar-btn" onclick="location.href='messages.html'">
+          <i class="fas fa-envelope"></i>
+          <span class="badge-dot"></span>
+        </button>
+        <div class="topbar-user">
+          <div class="topbar-avatar">م</div>
+          <div class="topbar-user-info">
+            <div class="topbar-user-name">مدير النظام</div>
+            <div class="topbar-user-role">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <div class="page-content" id="page-dashboard">
+      
+      <!-- LIVE CLOCK -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <div style="font-size:24px;font-weight:900;color:var(--admin-primary)" id="liveClock">--:--:--</div>
+          <div style="font-size:13px;color:var(--admin-text-secondary)" id="liveDate"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(16,185,129,0.1);border-radius:10px">
+          <span class="live-dot"></span>
+          <span style="font-size:13px;font-weight:600;color:var(--admin-success)" id="statOnline">47</span>
+          <span style="font-size:13px;color:var(--admin-text-secondary)">متصل الآن</span>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-cards">
+        <div class="stat-card blue">
+          <div class="stat-header">
+            <div class="stat-icon si-blue"><i class="fas fa-users"></i></div>
+            <span class="stat-change up">↑ 12%</span>
+          </div>
+          <div class="stat-value" id="statUsers">5,630</div>
+          <div class="stat-label">إجمالي المستخدمين</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-header">
+            <div class="stat-icon si-green"><i class="fas fa-eye"></i></div>
+            <span class="stat-change up">↑ 8%</span>
+          </div>
+          <div class="stat-value" id="statVisits">1,284</div>
+          <div class="stat-label">زيارات اليوم</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-header">
+            <div class="stat-icon si-orange"><i class="fas fa-gavel"></i></div>
+            <span class="stat-change up">↑ 3</span>
+          </div>
+          <div class="stat-value" id="statAuctions">12</div>
+          <div class="stat-label">مزادات نشطة</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-header">
+            <div class="stat-icon si-purple"><i class="fas fa-money-bill-wave"></i></div>
+            <span class="stat-change up">↑ 15%</span>
+          </div>
+          <div class="stat-value" id="statRevenue">2,450,000</div>
+          <div class="stat-label">إيرادات اليوم (ر.ي)</div>
+        </div>
+      </div>
+
+      <!-- SECOND ROW STATS -->
+      <div class="stat-cards">
+        <div class="stat-card cyan">
+          <div class="stat-header">
+            <div class="stat-icon si-cyan"><i class="fas fa-user-check"></i></div>
+          </div>
+          <div class="stat-value" id="statPending">8</div>
+          <div class="stat-label">طلبات التوثيق</div>
+        </div>
+        <div class="stat-card pink">
+          <div class="stat-header">
+            <div class="stat-icon si-pink"><i class="fas fa-comment"></i></div>
+          </div>
+          <div class="stat-value" id="statMessages">23</div>
+          <div class="stat-label">رسائل جديدة</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-header">
+            <div class="stat-icon si-red"><i class="fas fa-flag"></i></div>
+          </div>
+          <div class="stat-value" id="statReports">3</div>
+          <div class="stat-label">إبلاغات جديدة</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-header">
+            <div class="stat-icon si-blue"><i class="fas fa-car"></i></div>
+          </div>
+          <div class="stat-value">1,247</div>
+          <div class="stat-label">إجمالي الإعلانات</div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-actions">
+        <div class="quick-action" onclick="navigateTo('page-verification')">
+          <div class="quick-action-icon si-green" style="background:rgba(16,185,129,0.12)"><i class="fas fa-check-circle" style="color:var(--admin-success)"></i></div>
+          <div class="quick-action-label">توثيق حسابات</div>
+        </div>
+        <div class="quick-action" onclick="navigateTo('page-auctions')">
+          <div class="quick-action-icon si-orange" style="background:rgba(245,158,11,0.12)"><i class="fas fa-plus-circle" style="color:var(--admin-warning)"></i></div>
+          <div class="quick-action-label">إنشاء مزاد</div>
+        </div>
+        <div class="quick-action" onclick="exportTable('mainTable')">
+          <div class="quick-action-icon si-blue" style="background:rgba(59,130,246,0.12)"><i class="fas fa-download" style="color:var(--admin-accent)"></i></div>
+          <div class="quick-action-label">تصدير البيانات</div>
+        </div>
+        <div class="quick-action" onclick="navigateTo('page-settings')">
+          <div class="quick-action-icon si-purple" style="background:rgba(139,92,246,0.12)"><i class="fas fa-cog" style="color:var(--admin-purple)"></i></div>
+          <div class="quick-action-label">الإعدادات</div>
+        </div>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title"><i class="fas fa-chart-bar" style="color:var(--admin-accent);margin-left:8px"></i> الزيارات والمزادات</div>
+            <div class="chart-tabs">
+              <button class="chart-tab" onclick="switchChartTab(this,'week')">أسبوع</button>
+              <button class="chart-tab active" onclick="switchChartTab(this,'month')">شهر</button>
+              <button class="chart-tab" onclick="switchChartTab(this,'year')">سنة</button>
+            </div>
+          </div>
+          <div class="chart-area">
+            <div class="chart-bar-group">
+              <div class="chart-bar" data-height="65" style="background:var(--admin-accent)"><span class="bar-label">السبت</span><span class="bar-value">820</span></div>
+              <div class="chart-bar" data-height="85" style="background:var(--admin-accent)"><span class="bar-label">الأحد</span><span class="bar-value">1,100</span></div>
+              <div class="chart-bar" data-height="45" style="background:var(--admin-accent)"><span class="bar-label">الاثنين</span><span class="bar-value">580</span></div>
+              <div class="chart-bar" data-height="90" style="background:var(--admin-accent)"><span class="bar-label">الثلاثاء</span><span class="bar-value">1,160</span></div>
+              <div class="chart-bar" data-height="70" style="background:var(--admin-accent)"><span class="bar-label">الأربعاء</span><span class="bar-value">900</span></div>
+              <div class="chart-bar" data-height="55" style="background:var(--admin-accent)"><span class="bar-label">الخميس</span><span class="bar-value">710</span></div>
+              <div class="chart-bar" data-height="100" style="background:var(--admin-accent)"><span class="bar-label">الجمعة</span><span class="bar-value">1,284</span></div>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item"><span class="legend-dot" style="background:var(--admin-accent)"></span> الزيارات</div>
+              <div class="legend-item"><span class="legend-dot" style="background:var(--admin-success)"></span> المزادات</div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title"><i class="fas fa-chart-pie" style="color:var(--admin-purple);margin-left:8px"></i> توزيع الإعلانات</div>
+          </div>
+          <div class="donut-container">
+            <canvas id="donutCanvas" width="180" height="180"></canvas>
+            <div class="donut-legend">
+              <div class="donut-legend-item">
+                <div class="donut-legend-left"><span class="donut-legend-dot" style="background:#3B82F6"></span><span class="donut-legend-label">مزادات</span></div>
+                <span class="donut-legend-value">45%</span>
+              </div>
+              <div class="donut-legend-item">
+                <div class="donut-legend-left"><span class="donut-legend-dot" style="background:#10B981"></span><span class="donut-legend-label">بيع مباشر</span></div>
+                <span class="donut-legend-value">30%</span>
+              </div>
+              <div class="donut-legend-item">
+                <div class="donut-legend-left"><span class="donut-legend-dot" style="background:#F59E0B"></span><span class="donut-legend-label">قريباً</span></div>
+                <span class="donut-legend-value">15%</span>
+              </div>
+              <div class="donut-legend-item">
+                <div class="donut-legend-left"><span class="donut-legend-dot" style="background:#EF4444"></span><span class="donut-legend-label">منتهية</span></div>
+                <span class="donut-legend-value">10%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE ACTIVITY + RECENT -->
+      <div class="live-section">
+        <div class="live-card">
+          <div class="live-header">
+            <div class="live-title"><span class="live-dot"></span> النشاط المباشر</div>
+            <span style="font-size:12px;color:var(--admin-text-secondary)">يتحدث تلقائياً</span>
+          </div>
+          <div id="activityFeed"></div>
+        </div>
+        <div class="live-card">
+          <div class="live-header">
+            <div class="live-title"><i class="fas fa-gavel" style="color:var(--admin-warning)"></i> مزادات تنتهي قريباً</div>
+          </div>
+          <div class="live-item">
+            <div class="live-item-icon si-red" style="background:rgba(239,68,68,0.12)"><i class="fas fa-fire" style="color:var(--admin-danger)"></i></div>
+            <div class="live-item-info">
+              <div class="live-item-text">تويوتا كامري 2022</div>
+              <div class="live-item-time">ينتهي خلال 58 دقيقة</div>
+            </div>
+            <span class="status-badge sb-live">مباشر</span>
+          </div>
+          <div class="live-item">
+            <div class="live-item-icon si-orange" style="background:rgba(245,158,11,0.12)"><i class="fas fa-clock" style="color:var(--admin-warning)"></i></div>
+            <div class="live-item-info">
+              <div class="live-item-text">فورد موستانج GT 2019</div>
+              <div class="live-item-time">ينتهي خلال 3 ساعات</div>
+            </div>
+            <span class="status-badge sb-live">مباشر</span>
+          </div>
+          <div class="live-item">
+            <div class="live-item-icon si-blue" style="background:rgba(59,130,246,0.12)"><i class="fas fa-hourglass-start" style="color:var(--admin-accent)"></i></div>
+            <div class="live-item-info">
+              <div class="live-item-text">هيونداي توسان 2023</div>
+              <div class="live-item-time">يبدأ خلال يومين</div>
+            </div>
+            <span class="status-badge sb-upcoming">قريباً</span>
+          </div>
+          <div class="live-item">
+            <div class="live-item-icon si-green" style="background:rgba(16,185,129,0.12)"><i class="fas fa-check-circle" style="color:var(--admin-success)"></i></div>
+            <div class="live-item-info">
+              <div class="live-item-text">مرسيدس C200 2023</div>
+              <div class="live-item-time">تم البيع بـ 78,500,000 ر.ي</div>
+            </div>
+            <span class="status-badge sb-sold">مباعة</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT USERS TABLE -->
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title"><i class="fas fa-users" style="color:var(--admin-accent);margin-left:8px"></i> آخر المستخدمين</div>
+          <div class="table-actions">
+            <button class="table-action-btn" onclick="exportTable('mainTable')"><i class="fas fa-download"></i> تصدير</button>
+            <button class="table-action-btn primary" onclick="navigateTo('page-users')"><i class="fas fa-eye"></i> عرض الكل</button>
+          </div>
+        </div>
+        <table id="mainTable">
+          <thead>
+            <tr>
+              <th>المستخدم</th>
+              <th>الجوال</th>
+              <th>الإعلانات</th>
+              <th>الحالة</th>
+              <th>تاريخ الانضمام</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-user-id="1">
+              <td><div class="user-cell"><div class="user-avatar-sm" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">أ</div><div class="user-cell-info"><div class="user-cell-name">أحمد محمد</div><div class="user-cell-email">ahmed@email.com</div></div></div></td>
+              <td>777123456</td>
+              <td>12</td>
+              <td><span class="status-badge sb-verified"><i class="fas fa-check-circle"></i> موثق</span></td>
+              <td>2024/01/15</td>
+              <td><div class="action-btns"><button class="action-btn" title="عرض"><i class="fas fa-eye"></i></button><button class="action-btn" title="تعديل"><i class="fas fa-edit"></i></button><button class="action-btn danger" title="حظر"><i class="fas fa-ban"></i></button></div></td>
+            </tr>
+            <tr data-user-id="2">
+              <td><div class="user-cell"><div class="user-avatar-sm" style="background:linear-gradient(135deg,#10B981,#059669)">م</div><div class="user-cell-info"><div class="user-cell-name">محمد علي</div><div class="user-cell-email">mohammed@email.com</div></div></div></td>
+              <td>777987654</td>
+              <td>8</td>
+              <td><span class="status-badge sb-active"><i class="fas fa-circle"></i> نشط</span></td>
+              <td>2024/02/20</td>
+              <td><div class="action-btns"><button class="action-btn" title="عرض"><i class="fas fa-eye"></i></button><button class="action-btn success" title="توثيق" onclick="verifyUser(2)"><i class="fas fa-check-circle"></i></button><button class="action-btn danger" title="حظر"><i class="fas fa-ban"></i></button></div></td>
+            </tr>
+            <tr data-user-id="3">
+              <td><div class="user-cell"><div class="user-avatar-sm" style="background:linear-gradient(135deg,#F59E0B,#D97706)">خ</div><div class="user-cell-info"><div class="user-cell-name">خالد أحمد</div><div class="user-cell-email">khalid@email.com</div></div></div></td>
+              <td>777555333</td>
+              <td>5</td>
+              <td><span class="status-badge sb-pending"><i class="fas fa-clock"></i> معلق</span></td>
+              <td>2024/03/10</td>
+              <td><div class="action-btns"><button class="action-btn" title="عرض"><i class="fas fa-eye"></i></button><button class="action-btn success" title="توثيق" onclick="verifyUser(3)"><i class="fas fa-check-circle"></i></button><button class="action-btn danger" title="حظر"><i class="fas fa-ban"></i></button></div></td>
+            </tr>
+            <tr data-user-id="4">
+              <td><div class="user-cell"><div class="user-avatar-sm" style="background:linear-gradient(135deg,#EF4444,#DC2626)">س</div><div class="user-cell-info"><div class="user-cell-name">سالم حسن</div><div class="user-cell-email">salem@email.com</div></div></div></td>
+              <td>777111222</td>
+              <td>3</td>
+              <td><span class="status-badge sb-banned"><i class="fas fa-ban"></i> محظور</span></td>
+              <td>2024/03/25</td>
+              <td><div class="action-btns"><button class="action-btn" title="عرض"><i class="fas fa-eye"></i></button><button class="action-btn" title="تعديل"><i class="fas fa-edit"></i></button></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-pagination">
+          <div class="pagination-info">عرض 1-4 من 5,630 مستخدم</div>
+          <div class="pagination-btns">
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">...</button>
+            <button class="pagination-btn">1408</button>
+            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== USERS PAGE ===== -->
+    <div class="page-content" id="page-users" style="display:none">
+      <div class="stat-cards" style="grid-template-columns:repeat(5,1fr)">
+        <div class="stat-card blue"><div class="stat-value" style="font-size:24px">5,630</div><div class="stat-label">إجمالي</div></div>
+        <div class="stat-card green"><div class="stat-value" style="font-size:24px">4,890</div><div class="stat-label">نشط</div></div>
+        <div class="stat-card cyan"><div class="stat-value" style="font-size:24px">1,240</div><div class="stat-label">موثق</div></div>
+        <div class="stat-card orange"><div class="stat-value" style="font-size:24px">340</div><div class="stat-label">معلق</div></div>
+        <div class="stat-card red"><div class="stat-value" style="font-size:24px">12</div><div class="stat-label">محظور</div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">جميع المستخدمين</div>
+          <div class="table-actions">
+            <button class="table-action-btn"><i class="fas fa-filter"></i> فلترة</button>
+            <button class="table-action-btn"><i class="fas fa-download"></i> تصدير</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>المستخدم</th><th>الجوال</th><th>الإعلانات</th><th>المزادات</th><th>الحالة</th><th>التوثيق</th><th>إجراءات</th></tr></thead>
+          <tbody>
+            <tr><td><div class="user-cell"><div class="user-avatar-sm" style="background:#3B82F6">أ</div><div class="user-cell-info"><div class="user-cell-name">أحمد محمد</div><div class="user-cell-email">ahmed@email.com</div></div></div></td><td>777123456</td><td>12</td><td>5</td><td><span class="status-badge sb-active">نشط</span></td><td><span class="status-badge sb-verified">موثق</span></td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button><button class="action-btn"><i class="fas fa-edit"></i></button><button class="action-btn danger"><i class="fas fa-ban"></i></button></div></td></tr>
+            <tr><td><div class="user-cell"><div class="user-avatar-sm" style="background:#10B981">م</div><div class="user-cell-info"><div class="user-cell-name">محمد علي</div><div class="user-cell-email">mohammed@email.com</div></div></div></td><td>777987654</td><td>8</td><td>3</td><td><span class="status-badge sb-active">نشط</span></td><td><span class="status-badge sb-pending">معلق</span></td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button><button class="action-btn success"><i class="fas fa-check-circle"></i></button><button class="action-btn danger"><i class="fas fa-ban"></i></button></div></td></tr>
+            <tr><td><div class="user-cell"><div class="user-avatar-sm" style="background:#F59E0B">خ</div><div class="user-cell-info"><div class="user-cell-name">خالد أحمد</div><div class="user-cell-email">khalid@email.com</div></div></div></td><td>777555333</td><td>5</td><td>2</td><td><span class="status-badge sb-active">نشط</span></td><td><span class="status-badge sb-pending">معلق</span></td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button><button class="action-btn success"><i class="fas fa-check-circle"></i></button><button class="action-btn danger"><i class="fas fa-ban"></i></button></div></td></tr>
+            <tr><td><div class="user-cell"><div class="user-avatar-sm" style="background:#EF4444">س</div><div class="user-cell-info"><div class="user-cell-name">سالم حسن</div><div class="user-cell-email">salem@email.com</div></div></div></td><td>777111222</td><td>3</td><td>1</td><td><span class="status-badge sb-banned">محظور</span></td><td><span class="status-badge sb-verified">موثق</span></td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button></div></td></tr>
+            <tr><td><div class="user-cell"><div class="user-avatar-sm" style="background:#8B5CF6">ع</div><div class="user-cell-info"><div class="user-cell-name">عمر عبدالله</div><div class="user-cell-email">omar@email.com</div></div></div></td><td>777666888</td><td>15</td><td>7</td><td><span class="status-badge sb-active">نشط</span></td><td><span class="status-badge sb-verified">موثق</span></td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button><button class="action-btn"><i class="fas fa-edit"></i></button><button class="action-btn danger"><i class="fas fa-ban"></i></button></div></td></tr>
+          </tbody>
+        </table>
+        <div class="table-pagination">
+          <div class="pagination-info">عرض 1-5 من 5,630</div>
+          <div class="pagination-btns"><button class="pagination-btn"><i class="fas fa-chevron-right"></i></button><button class="pagination-btn active">1</button><button class="pagination-btn">2</button><button class="pagination-btn">3</button><button class="pagination-btn"><i class="fas fa-chevron-left"></i></button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== AUCTIONS PAGE ===== -->
+    <div class="page-content" id="page-auctions" style="display:none">
+      <div class="stat-cards" style="grid-template-columns:repeat(5,1fr)">
+        <div class="stat-card blue"><div class="stat-value" style="font-size:24px">247</div><div class="stat-label">إجمالي</div></div>
+        <div class="stat-card red"><div class="stat-value" style="font-size:24px">2</div><div class="stat-label">مباشر</div></div>
+        <div class="stat-card orange"><div class="stat-value" style="font-size:24px">1</div><div class="stat-label">ينتهي</div></div>
+        <div class="stat-card cyan"><div class="stat-value" style="font-size:24px">1</div><div class="stat-label">قادم</div></div>
+        <div class="stat-card green"><div class="stat-value" style="font-size:24px">156</div><div class="stat-label">مباعة</div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">إدارة المزادات</div>
+          <div class="table-actions">
+            <button class="table-action-btn primary"><i class="fas fa-plus"></i> مزاد جديد</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>السيارة</th><th>السعر الحالي</th><th>المزايدات</th><th>المشاهدات</th><th>الحالة</th><th>ينتهي</th><th>إجراءات</th></tr></thead>
+          <tbody>
+            <tr><td><strong>تويوتا لاندكروزر GXR 2020</strong></td><td>41,500,000 ر.ي</td><td>7</td><td>2,140</td><td><span class="status-badge sb-live">مباشر</span></td><td>23:59:02</td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button><button class="action-btn success"><i class="fas fa-star"></i></button><button class="action-btn danger"><i class="fas fa-stop-circle"></i></button></div></td></tr>
+            <tr><td><strong>فورد موستانج GT 2019</strong></td><td>35,200,000 ر.ي</td><td>12</td><td>860</td><td><span class="status-badge sb-live">مباشر</span></td><td>09:55:12</td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button><button class="action-btn success"><i class="fas fa-star"></i></button><button class="action-btn danger"><i class="fas fa-stop-circle"></i></button></div></td></tr>
+            <tr><td><strong>تويوتا كامري 2022</strong></td><td>28,800,000 ر.ي</td><td>5</td><td>1,520</td><td><span class="status-badge" style="background:rgba(245,158,11,0.12);color:var(--admin-warning)">ينتهي</span></td><td>01:58:30</td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button><button class="action-btn success"><i class="fas fa-star"></i></button></div></td></tr>
+            <tr><td><strong>هيونداي توسان 2023</strong></td><td>32,000,000 ر.ي</td><td>0</td><td>3,210</td><td><span class="status-badge sb-upcoming">قريباً</span></td><td>يبدأ بعد يومين</td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button><button class="action-btn"><i class="fas fa-edit"></i></button><button class="action-btn danger"><i class="fas fa-trash"></i></button></div></td></tr>
+            <tr><td><strong>مرسيدس C200 2023</strong></td><td>78,500,000 ر.ي</td><td>15</td><td>4,830</td><td><span class="status-badge sb-sold">مباعة</span></td><td>منتهي</td><td><div class="action-btns"><button class="action-btn"><i class="fas fa-eye"></i></button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== VERIFICATION PAGE ===== -->
+    <div class="page-content" id="page-verification" style="display:none">
+      <div class="stat-cards" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat-card orange"><div class="stat-value" style="font-size:24px">8</div><div class="stat-label">طلبات معلقة</div></div>
+        <div class="stat-card green"><div class="stat-value" style="font-size:24px">1,240</div><div class="stat-label">حساب موثق</div></div>
+        <div class="stat-card red"><div class="stat-value" style="font-size:24px">23</div><div class="stat-label">طلب مرفوض</div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">طلبات التوثيق المعلقة</div>
+        </div>
+        <table>
+          <thead><tr><th>المستخدم</th><th>نوع التوثيق</th><th>الوثائق</th><th>تاريخ الطلب</th><th>إجراءات</th></tr></thead>
+          <tbody>
+            <tr data-user-id="v1"><td><div class="user-cell"><div class="user-avatar-sm" style="background:#3B82F6">م</div><div class="user-cell-info"><div class="user-cell-name">محمد علي</div><div class="user-cell-email">777987654</div></div></div></td><td>بائع محترف</td><td>هوية + سجل تجاري</td><td>2024/07/28</td><td><div class="action-btns"><button class="action-btn success" onclick="verifyUser('v1')"><i class="fas fa-check"></i></button><button class="action-btn danger" onclick="rejectUser('v1')"><i class="fas fa-times"></i></button><button class="action-btn"><i class="fas fa-eye"></i></button></div></td></tr>
+            <tr data-user-id="v2"><td><div class="user-cell"><div class="user-avatar-sm" style="background:#10B981">خ</div><div class="user-cell-info"><div class="user-cell-name">خالد أحمد</div><div class="user-cell-email">777555333</div></div></div></td><td>بائع</td><td>هوية شخصية</td><td>2024/07/27</td><td><div class="action-btns"><button class="action-btn success" onclick="verifyUser('v2')"><i class="fas fa-check"></i></button><button class="action-btn danger" onclick="rejectUser('v2')"><i class="fas fa-times"></i></button><button class="action-btn"><i class="fas fa-eye"></i></button></div></td></tr>
+            <tr data-user-id="v3"><td><div class="user-cell"><div class="user-avatar-sm" style="background:#F59E0B">ف</div><div class="user-cell-info"><div class="user-cell-name">فهد سعيد</div><div class="user-cell-email">777333444</div></div></div></td><td>معرض سيارات</td><td>سجل تجاري + رخصة</td><td>2024/07/26</td><td><div class="action-btns"><button class="action-btn success" onclick="verifyUser('v3')"><i class="fas fa-check"></i></button><button class="action-btn danger" onclick="rejectUser('v3')"><i class="fas fa-times"></i></button><button class="action-btn"><i class="fas fa-eye"></i></button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== REPORTS PAGE ===== -->
+    <div class="page-content" id="page-reports" style="display:none">
+      <div class="stat-cards" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card blue"><div class="stat-value" style="font-size:24px">38,520</div><div class="stat-label">إجمالي الزيارات (شهر)</div></div>
+        <div class="stat-card green"><div class="stat-value" style="font-size:24px">73,200,000</div><div class="stat-label">إجمالي المبيعات (ر.ي)</div></div>
+        <div class="stat-card purple"><div class="stat-value" style="font-size:24px">2,190,000</div><div class="stat-label">عمولة المنصة (ر.ي)</div></div>
+        <div class="stat-card orange"><div class="stat-value" style="font-size:24px">4.2%</div><div class="stat-label">معدل التحويل</div></div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title" style="margin-bottom:16px"><i class="fas fa-chart-line" style="color:var(--admin-success);margin-left:8px"></i> نمو المستخدمين</div>
+          <div class="chart-bar-group">
+            <div class="chart-bar" data-height="30" style="background:var(--admin-success)"><span class="bar-label">يناير</span><span class="bar-value">2.1K</span></div>
+            <div class="chart-bar" data-height="40" style="background:var(--admin-success)"><span class="bar-label">فبراير</span><span class="bar-value">2.8K</span></div>
+            <div class="chart-bar" data-height="55" style="background:var(--admin-success)"><span class="bar-label">مارس</span><span class="bar-value">3.5K</span></div>
+            <div class="chart-bar" data-height="60" style="background:var(--admin-success)"><span class="bar-label">أبريل</span><span class="bar-value">3.9K</span></div>
+            <div class="chart-bar" data-height="70" style="background:var(--admin-success)"><span class="bar-label">مايو</span><span class="bar-value">4.3K</span></div>
+            <div class="chart-bar" data-height="85" style="background:var(--admin-success)"><span class="bar-label">يونيو</span><span class="bar-value">5.1K</span></div>
+            <div class="chart-bar" data-height="100" style="background:var(--admin-success)"><span class="bar-label">يوليو</span><span class="bar-value">5.6K</span></div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title" style="margin-bottom:16px"><i class="fas fa-chart-pie" style="color:var(--admin-accent);margin-left:8px"></i> مصادر الزيارات</div>
+          <div class="donut-legend">
+            <div class="donut-legend-item"><div class="donut-legend-left"><span class="donut-legend-dot" style="background:#3B82F6"></span><span class="donut-legend-label">بحث مباشر</span></div><span class="donut-legend-value">42%</span></div>
+            <div class="donut-legend-item"><div class="donut-legend-left"><span class="donut-legend-dot" style="background:#10B981"></span><span class="donut-legend-label">وسائل التواصل</span></div><span class="donut-legend-value">28%</span></div>
+            <div class="donut-legend-item"><div class="donut-legend-left"><span class="donut-legend-dot" style="background:#F59E0B"></span><span class="donut-legend-label">إعلانات مدفوعة</span></div><span class="donut-legend-value">18%</span></div>
+            <div class="donut-legend-item"><div class="donut-legend-left"><span class="donut-legend-dot" style="background:#8B5CF6"></span><span class="donut-legend-label">إحالات</span></div><span class="donut-legend-value">12%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS PAGE ===== -->
+    <div class="page-content" id="page-settings" style="display:none">
+      <div class="chart-card" style="margin-bottom:16px">
+        <div class="chart-title" style="margin-bottom:16px"><i class="fas fa-cog" style="color:var(--admin-accent);margin-left:8px"></i> إعدادات المنصة</div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">اسم المنصة</label>
+          <input type="text" class="admin-form-input" value="مزايد سيارات">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">وصف المنصة</label>
+          <input type="text" class="admin-form-input" value="منصة المزادات الآلية الأولى">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">نسبة عمولة المنصة (%)</label>
+          <input type="number" class="admin-form-input" value="3">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">الحد الأدنى للمزايدة (ر.ي)</label>
+          <input type="number" class="admin-form-input" value="100000">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">مدة المزاد الافتراضية (أيام)</label>
+          <input type="number" class="admin-form-input" value="7">
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="modal-btn confirm" onclick="showNotification('✅ تم حفظ الإعدادات','success')"><i class="fas fa-save"></i> حفظ</button>
+          <button class="modal-btn cancel">إعادة تعيين</button>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title" style="margin-bottom:16px"><i class="fas fa-shield-alt" style="color:var(--admin-warning);margin-left:8px"></i> إعدادات الأمان</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:var(--admin-bg);border-radius:10px">
+            <div><div style="font-weight:700;font-size:14px">التحقق بخطوتين</div><div style="font-size:12px;color:var(--admin-text-secondary)">إجبار المستخدمين على التحقق OTP</div></div>
+            <div style="width:48px;height:26px;border-radius:13px;background:var(--admin-success);position:relative;cursor:pointer"><div style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 2px 4px rgba(0,0,0,0.2);transition:0.3s"></div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:var(--admin-bg);border-radius:10px">
+            <div><div style="font-weight:700;font-size:14px">فحص الإعلانات يدوياً</div><div style="font-size:12px;color:var(--admin-text-secondary)">مراجعة كل إعلان قبل النشر</div></div>
+            <div style="width:48px;height:26px;border-radius:13px;background:var(--admin-success);position:relative;cursor:pointer"><div style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 2px 4px rgba(0,0,0,0.2);transition:0.3s"></div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:var(--admin-bg);border-radius:10px">
+            <div><div style="font-weight:700;font-size:14px">نظام الدفع المضمون</div><div style="font-size:12px;color:var(--admin-text-secondary)">حفظ المبلغ حتى استلام السيارة</div></div>
+            <div style="width:48px;height:26px;border-radius:13px;background:var(--admin-success);position:relative;cursor:pointer"><div style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 2px 4px rgba(0,0,0,0.2);transition:0.3s"></div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:var(--admin-bg);border-radius:10px">
+            <div><div style="font-weight:700;font-size:14px">إشعارات البريد الإلكتروني</div><div style="font-size:12px;color:var(--admin-text-secondary)">إرسال إشعارات بالبريد للمستخدمين</div></div>
+            <div style="width:48px;height:26px;border-radius:13px;background:var(--admin-border);position:relative;cursor:pointer"><div style="position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 2px 4px rgba(0,0,0,0.2);transition:0.3s"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LOGS PAGE ===== -->
+    <div class="page-content" id="page-logs" style="display:none">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title"><i class="fas fa-history" style="color:var(--admin-accent);margin-left:8px"></i> سجل العمليات</div>
+          <div class="table-actions">
+            <button class="table-action-btn"><i class="fas fa-filter"></i> فلترة</button>
+            <button class="table-action-btn"><i class="fas fa-download"></i> تصدير</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>الوقت</th><th>المستخدم</th><th>العملية</th><th>التفاصيل</th><th>IP</th></tr></thead>
+          <tbody>
+            <tr><td>10:45:02</td><td>أحمد محمد</td><td><span class="status-badge sb-active">مزايدة</span></td><td>41,500,000 ر.ي على لاندكروزر</td><td>192.168.1.***</td></tr>
+            <tr><td>10:42:15</td><td>محمد علي</td><td><span class="status-badge sb-verified">تسجيل دخول</span></td><td>تسجيل دخول ناجح</td><td>192.168.1.***</td></tr>
+            <tr><td>10:38:30</td><td>خالد أحمد</td><td><span class="status-badge sb-upcoming">إعلان</span></td><td>نشر إعلان جديد: كامري 2022</td><td>192.168.1.***</td></tr>
+            <tr><td>10:35:00</td><td>النظام</td><td><span class="status-badge sb-ended">تحديث</span></td><td>تحديث إعدادات المنصة</td><td>-</td></tr>
+            <tr><td>10:30:22</td><td>سالم حسن</td><td><span class="status-badge sb-banned">حظر</span></td><td>تم حظر الحساب بسبب نشاط مشبوه</td><td>192.168.1.***</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== PAYMENTS PAGE ===== -->
+    <div class="page-content" id="page-payments" style="display:none">
+      <div class="stat-cards" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card green"><div class="stat-value" style="font-size:24px">73,200,000</div><div class="stat-label">إجمالي المبيعات (ر.ي)</div></div>
+        <div class="stat-card blue"><div class="stat-value" style="font-size:24px">2,190,000</div><div class="stat-label">عمولة المنصة (ر.ي)</div></div>
+        <div class="stat-card orange"><div class="stat-value" style="font-size:24px">15</div><div class="stat-label">معاملات معلقة</div></div>
+        <div class="stat-card purple"><div class="stat-value" style="font-size:24px">156</div><div class="stat-label">صفقة مكتملة</div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">آخر المعاملات</div>
+        </div>
+        <table>
+          <thead><tr><th>رقم العملية</th><th>المشتري</th><th>البائع</th><th>المبلغ</th><th>العمولة</th><th>الحالة</th><th>التاريخ</th></tr></thead>
+          <tbody>
+            <tr><td>#TXN-001</td><td>عمر عبدالله</td><td>أحمد محمد</td><td>78,500,000 ر.ي</td><td>2,355,000 ر.ي</td><td><span class="status-badge sb-active">مكتملة</span></td><td>2024/07/28</td></tr>
+            <tr><td>#TXN-002</td><td>خالد أحمد</td><td>محمد علي</td><td>41,500,000 ر.ي</td><td>1,245,000 ر.ي</td><td><span class="status-badge sb-pending">معلقة</span></td><td>2024/07/29</td></tr>
+            <tr><td>#TXN-003</td><td>فهد سعيد</td><td>سالم حسن</td><td>35,200,000 ر.ي</td><td>1,056,000 ر.ي</td><td><span class="status-badge sb-active">مكتملة</span></td><td>2024/07/25</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== CONTENT PAGE ===== -->
+    <div class="page-content" id="page-content" style="display:none">
+      <div class="stat-cards" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card blue"><div class="stat-value" style="font-size:24px">1,247</div><div class="stat-label">إجمالي الإعلانات</div></div>
+        <div class="stat-card green"><div class="stat-value" style="font-size:24px">1,180</div><div class="stat-label">منشورة</div></div>
+        <div class="stat-card orange"><div class="stat-value" style="font-size:24px">28</div><div class="stat-label">قيد المراجعة</div></div>
+        <div class="stat-card red"><div class="stat-value" style="font-size:24px">39</div><div class="stat-label">مرفوضة</div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">إعلانات قيد المراجعة</div>
+        </div>
+        <table>
+          <thead><tr><th>الإعلان</th><th>المعلن</th><th>السعر</th><th>التاريخ</th><th>إجراءات</th></tr></thead>
+          <tbody>
+            <tr><td><strong>هوندا أكورد 2021</strong></td><td>محمد علي</td><td>22,000,000 ر.ي</td><td>2024/07/29</td><td><div class="action-btns"><button class="action-btn success"><i class="fas fa-check"></i></button><button class="action-btn danger"><i class="fas fa-times"></i></button><button class="action-btn"><i class="fas fa-eye"></i></button></div></td></tr>
+            <tr><td><strong>كيا سبورتاج 2022</strong></td><td>خالد أحمد</td><td>28,500,000 ر.ي</td><td>2024/07/29</td><td><div class="action-btns"><button class="action-btn success"><i class="fas fa-check"></i></button><button class="action-btn danger"><i class="fas fa-times"></i></button><button class="action-btn"><i class="fas fa-eye"></i></button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== NOTIFICATIONS PAGE ===== -->
+    <div class="page-content" id="page-notifications" style="display:none">
+      <div class="chart-card">
+        <div class="chart-title">إشعارات النظام</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="modalNotifications">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">الإشعارات</div>
+        <button class="modal-close" onclick="hideModal('modalNotifications')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="live-item"><div class="live-item-icon si-red" style="background:rgba(239,68,68,0.12)"><i class="fas fa-flag" style="color:var(--admin-danger)"></i></div><div class="live-item-info"><div class="live-item-text">إبلاغ جديد على إعلان</div><div class="live-item-time">منذ 5 دقائق</div></div></div>
+        <div class="live-item"><div class="live-item-icon si-orange" style="background:rgba(245,158,11,0.12)"><i class="fas fa-user-clock" style="color:var(--admin-warning)"></i></div><div class="live-item-info"><div class="live-item-text">8 طلبات توثيق معلقة</div><div class="live-item-time">منذ 10 دقائق</div></div></div>
+        <div class="live-item"><div class="live-item-icon si-green" style="background:rgba(16,185,129,0.12)"><i class="fas fa-gavel" style="color:var(--admin-success)"></i></div><div class="live-item-info"><div class="live-item-text">مزاد جديد: هيونداي توسان 2023</div><div class="live-item-time">منذ 30 دقيقة</div></div></div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn confirm" onclick="hideModal('modalNotifications')">حسناً</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin-app.js"></script>
+  <script>
+    // Responsive sidebar toggle
+    if (window.innerWidth <= 768) {
+      document.getElementById('menuBtn').style.display = 'flex';
+    }
+    window.addEventListener('resize', () => {
+      document.getElementById('menuBtn').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+    });
+  </script>
+</body>
+</html>
