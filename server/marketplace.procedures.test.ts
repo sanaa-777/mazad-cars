@@ -3,19 +3,41 @@ import type { TrpcContext } from "./_core/context";
 
 vi.mock("./db", async () => {
   const actual = await vi.importActual<typeof import("./db")>("./db");
-  return { ...actual, getDb: vi.fn(), syncAuctionStatuses: vi.fn(), createNotification: vi.fn(), addAudit: vi.fn() };
+  return { ...actual, getDb: vi.fn(), syncAuctionStatuses: vi.fn(), createNotification: vi.fn(), addAudit: vi.fn(), ownedListing: vi.fn() };
 });
 
 import { appRouter } from "./routers";
-import { addAudit, createNotification, getDb, syncAuctionStatuses } from "./db";
+import { addAudit, createNotification, getDb, ownedListing, syncAuctionStatuses } from "./db";
 
-const getDbMock = vi.mocked(getDb); const notifyMock = vi.mocked(createNotification); const auditMock = vi.mocked(addAudit); const syncMock = vi.mocked(syncAuctionStatuses);
+const getDbMock = vi.mocked(getDb); const notifyMock = vi.mocked(createNotification); const auditMock = vi.mocked(addAudit); const ownedListingMock = vi.mocked(ownedListing); const syncMock = vi.mocked(syncAuctionStatuses);
 function contextFor(role: "user" | "admin" = "user"): TrpcContext { const now = new Date(); return { user: { id: 7, openId: "procedure-user", name: "Tester", email: "test@example.com", phone: null, avatarUrl: null, loginMethod: "test", role, status: "active", createdAt: now, updatedAt: now, lastSignedIn: now }, req: { protocol: "https", headers: {} } as TrpcContext["req"], res: {} as TrpcContext["res"] }; }
 const bidRow = { auction: { id: 5, listingId: 9, status: "live" as const, currentBid: "10000", minimumIncrement: "500", endsAt: Date.now() + 60_000, startsAt: Date.now() - 60_000, startPrice: "9000", reservePrice: null, buyNowPrice: null, winnerId: null, reminderSentAt: null, createdAt: 1, updatedAt: 1 }, listing: { id: 9, ownerId: 2, title: "سيارة اختبار", status: "published" as const } };
 
 beforeEach(() => { vi.clearAllMocks(); syncMock.mockResolvedValue(undefined); auditMock.mockResolvedValue(undefined); notifyMock.mockResolvedValue(undefined); });
 
 describe("critical marketplace procedures", () => {
+
+  it("يسمح لصاحب الإعلان بتعديل إعلان منشور ويعيده للمراجعة", async () => {
+    const db = { update: () => ({ set: () => ({ where: async () => [] }) }), select: () => ({ from: () => ({ where: async () => [] }) }) };
+    getDbMock.mockResolvedValue(db as never);
+    ownedListingMock.mockResolvedValue({ id: 81, ownerId: 7, status: "published" } as never);
+    await expect(appRouter.createCaller(contextFor()).marketplace.listings.save({ id: 81, title: "تويوتا كامري 2022 بعد التحديث", description: "سيارة بحالة ممتازة، مفحوصة وجاهزة للاستخدام مع سجل صيانة واضح ومواصفات كاملة.", make: "تويوتا", model: "كامري", year: 2022, mileage: 42000, fuelType: "gasoline", transmission: "automatic", bodyType: "سيدان", condition: "excellent", city: "صنعاء", contactPhone: "777123456", showWhatsapp: false, allowNegotiation: true, saleType: "sale", askingPrice: 18500000, submitForReview: true })).resolves.toEqual({ id: 81, status: "pending" });
+    expect(auditMock).toHaveBeenCalledWith(7, "listing.updated", "listing", 81);
+  });
+
+  it("يرفض تعديل إعلان لا يملكه المستخدم", async () => {
+    getDbMock.mockResolvedValue({ update: () => ({ set: () => ({ where: async () => [] }) }) } as never);
+    ownedListingMock.mockResolvedValue(undefined);
+    await expect(appRouter.createCaller(contextFor()).marketplace.listings.save({ id: 82, title: "تويوتا كامري 2022 بعد التحديث", description: "سيارة بحالة ممتازة، مفحوصة وجاهزة للاستخدام مع سجل صيانة واضح ومواصفات كاملة.", make: "تويوتا", model: "كامري", year: 2022, mileage: 42000, fuelType: "gasoline", transmission: "automatic", bodyType: "سيدان", condition: "excellent", city: "صنعاء", contactPhone: "777123456", showWhatsapp: false, allowNegotiation: true, saleType: "sale", askingPrice: 18500000, submitForReview: false })).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("يرفض تغيير إعدادات مزاد مباشر حتى لا تتأثر المزايدات القائمة", async () => {
+    const liveAuction = { id: 9, listingId: 83, status: "live" as const };
+    const db = { select: () => ({ from: () => ({ where: () => ({ limit: async () => [liveAuction] }) }) }), update: () => ({ set: () => ({ where: async () => [] }) }) };
+    getDbMock.mockResolvedValue(db as never);
+    ownedListingMock.mockResolvedValue({ id: 83, ownerId: 7, status: "published" } as never);
+    await expect(appRouter.createCaller(contextFor()).marketplace.listings.save({ id: 83, title: "تويوتا كامري 2022 بعد التحديث", description: "سيارة بحالة ممتازة، مفحوصة وجاهزة للاستخدام مع سجل صيانة واضح ومواصفات كاملة.", make: "تويوتا", model: "كامري", year: 2022, mileage: 42000, fuelType: "gasoline", transmission: "automatic", bodyType: "سيدان", condition: "excellent", city: "صنعاء", contactPhone: "777123456", showWhatsapp: false, allowNegotiation: true, saleType: "auction", auction: { startPrice: 18000000, minimumIncrement: 250000, startsAt: Date.now() + 60_000, endsAt: Date.now() + 3_600_000 }, submitForReview: true })).rejects.toMatchObject({ code: "CONFLICT" });
+  });
   it("يسجل المزايدة الخادمية فقط بعد تجاوز الحد الأدنى وينشئ إشعارًا للبائع", async () => {
     const tx = { update: () => ({ set: () => ({ where: async () => [{ affectedRows: 1 }] }) }), insert: () => ({ values: async () => [{ insertId: 55 }] }) };
     const db = { select: () => ({ from: () => ({ innerJoin: () => ({ where: () => ({ limit: async () => [bidRow] }) }) }) }), transaction: async (work: (client: typeof tx) => Promise<number>) => work(tx) };

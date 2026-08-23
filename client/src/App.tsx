@@ -22,6 +22,7 @@ function Router() {
       <Route path={"/auctions"} component={Auctions} />
       <Route path={"/listings"} component={Listings} />
       <Route path={"/listings/new"} component={NewListing} />
+      <Route path={"/listings/:id/edit"} component={NewListing} />
       <Route path={"/listings/:id"} component={ListingIdRoute} />
       <Route path={"/messages"} component={Messages} />
       <Route path={"/profile"} component={Profile} />
