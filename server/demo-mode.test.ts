@@ -20,6 +20,14 @@ describe("development demo mode", () => {
     expect(isDemoAuctionId(999001)).toBe(true);
   });
 
+  it("يدعم الترقيم عبر صفحات معاينة متعددة", () => {
+    const first = demoPublicListings({ page: 1, pageSize: 1 });
+    const second = demoPublicListings({ page: 2, pageSize: 1 });
+    expect(first).toHaveLength(1);
+    expect(second).toHaveLength(1);
+    expect(first[0]?.listing.id).not.toBe(second[0]?.listing.id);
+  });
+
   it("يعطّل بيانات المعاينة بالكامل في وضع الإنتاج", () => {
     const previous = process.env.NODE_ENV;
     process.env.NODE_ENV = "production";

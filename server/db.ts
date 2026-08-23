@@ -18,7 +18,7 @@ export async function createNotification(userId: number, type: "listing" | "bid"
 export async function syncAuctionStatuses() { const db = await getDb(); if (!db) return; const now = Date.now(); await db.update(auctions).set({ status: "live", updatedAt: now }).where(and(eq(auctions.status, "scheduled"), lte(auctions.startsAt, now), gte(auctions.endsAt, now))); await db.update(auctions).set({ status: "ended", updatedAt: now }).where(and(eq(auctions.status, "live"), lte(auctions.endsAt, now))); }
 
 export async function publicListings(input: { query?: string; make?: string; city?: string; saleType?: "sale" | "auction"; minPrice?: number; maxPrice?: number; sort?: "newest" | "priceAsc" | "priceDesc" | "yearDesc"; page: number; pageSize: number }) {
-  const demos = demoPublicListings(input); const db = await getDb(); if (!db) return { items: demos, total: demos.length };
+  const demos = demoPublicListings(input); const demoTotal = demoPublicListings({ ...input, page: 1, pageSize: 30 }).length; const db = await getDb(); if (!db) return { items: demos, total: demoTotal };
   await syncAuctionStatuses();
   const filters = [eq(listings.status, "published")];
   if (input.make) filters.push(eq(listings.make, input.make)); if (input.city) filters.push(eq(listings.city, input.city)); if (input.saleType) filters.push(eq(listings.saleType, input.saleType));
@@ -27,7 +27,7 @@ export async function publicListings(input: { query?: string; make?: string; cit
   const order = input.sort === "priceAsc" ? asc(listings.askingPrice) : input.sort === "priceDesc" ? desc(listings.askingPrice) : input.sort === "yearDesc" ? desc(listings.year) : desc(listings.publishedAt);
   const rows = await db.select({ listing: listings, image: listingImages, auction: auctions }).from(listings).leftJoin(listingImages, and(eq(listingImages.listingId, listings.id), eq(listingImages.sortOrder, 0))).leftJoin(auctions, eq(auctions.listingId, listings.id)).where(and(...filters)).orderBy(order).limit(input.pageSize).offset((input.page - 1) * input.pageSize);
   const totalRows = await db.select({ value: sql<number>`count(*)` }).from(listings).where(and(...filters));
-  if (!rows.length && demos.length) return { items: demos, total: demos.length };
+  if (!rows.length && demos.length) return { items: demos, total: demoTotal };
   return { items: rows, total: Number(totalRows[0]?.value ?? 0) };
 }
 
