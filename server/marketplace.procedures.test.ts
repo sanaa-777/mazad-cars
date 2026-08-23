@@ -1,0 +1,64 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { TrpcContext } from "./_core/context";
+
+vi.mock("./db", async () => {
+  const actual = await vi.importActual<typeof import("./db")>("./db");
+  return { ...actual, getDb: vi.fn(), syncAuctionStatuses: vi.fn(), createNotification: vi.fn(), addAudit: vi.fn() };
+});
+
+import { appRouter } from "./routers";
+import { addAudit, createNotification, getDb, syncAuctionStatuses } from "./db";
+
+const getDbMock = vi.mocked(getDb); const notifyMock = vi.mocked(createNotification); const auditMock = vi.mocked(addAudit); const syncMock = vi.mocked(syncAuctionStatuses);
+function contextFor(role: "user" | "admin" = "user"): TrpcContext { const now = new Date(); return { user: { id: 7, openId: "procedure-user", name: "Tester", email: "test@example.com", phone: null, avatarUrl: null, loginMethod: "test", role, status: "active", createdAt: now, updatedAt: now, lastSignedIn: now }, req: { protocol: "https", headers: {} } as TrpcContext["req"], res: {} as TrpcContext["res"] }; }
+const bidRow = { auction: { id: 5, listingId: 9, status: "live" as const, currentBid: "10000", minimumIncrement: "500", endsAt: Date.now() + 60_000, startsAt: Date.now() - 60_000, startPrice: "9000", reservePrice: null, buyNowPrice: null, winnerId: null, reminderSentAt: null, createdAt: 1, updatedAt: 1 }, listing: { id: 9, ownerId: 2, title: "سيارة اختبار", status: "published" as const } };
+
+beforeEach(() => { vi.clearAllMocks(); syncMock.mockResolvedValue(undefined); auditMock.mockResolvedValue(undefined); notifyMock.mockResolvedValue(undefined); });
+
+describe("critical marketplace procedures", () => {
+  it("يسجل المزايدة الخادمية فقط بعد تجاوز الحد الأدنى وينشئ إشعارًا للبائع", async () => {
+    const tx = { update: () => ({ set: () => ({ where: async () => [{ affectedRows: 1 }] }) }), insert: () => ({ values: async () => [{ insertId: 55 }] }) };
+    const db = { select: () => ({ from: () => ({ innerJoin: () => ({ where: () => ({ limit: async () => [bidRow] }) }) }) }), transaction: async (work: (client: typeof tx) => Promise<number>) => work(tx) };
+    getDbMock.mockResolvedValue(db as never);
+    const result = await appRouter.createCaller(contextFor()).marketplace.auctions.placeBid({ auctionId: 5, amount: 10500 });
+    expect(result).toEqual({ bidId: 55, amount: 10500 });
+    expect(notifyMock).toHaveBeenCalledWith(2, "bid", "مزايدة جديدة", expect.any(String), "/listings/9");
+  });
+
+  it("يرفض المزايدة الأقل من الحد الأدنى قبل تنفيذ المعاملة", async () => {
+    const db = { select: () => ({ from: () => ({ innerJoin: () => ({ where: () => ({ limit: async () => [bidRow] }) }) }) }) };
+    getDbMock.mockResolvedValue(db as never);
+    await expect(appRouter.createCaller(contextFor()).marketplace.auctions.placeBid({ auctionId: 5, amount: 10499 })).rejects.toMatchObject({ code: "CONFLICT" });
+  });
+
+  it("ينشئ رسالة ويشعر الطرف الآخر في المحادثة", async () => {
+    const conversation = { id: 11, listingId: 9, buyerId: 7, sellerId: 2, createdAt: 1, updatedAt: 1 };
+    const db = { select: () => ({ from: () => ({ where: () => ({ limit: async () => [conversation] }) }) }), insert: () => ({ values: async () => [{ insertId: 77 }] }), update: () => ({ set: () => ({ where: async () => [] }) }) };
+    getDbMock.mockResolvedValue(db as never);
+    const result = await appRouter.createCaller(contextFor()).marketplace.messages.send({ conversationId: 11, content: "هل السيارة متاحة؟" });
+    expect(result.id).toBe(77);
+    expect(notifyMock).toHaveBeenCalledWith(2, "message", "رسالة جديدة", expect.any(String), "/messages");
+  });
+
+  it("يسمح للمشرف باعتماد الإعلان وينشئ إشعار الاعتماد", async () => {
+    const listing = { id: 9, ownerId: 2, title: "سيارة اختبار", publishedAt: null };
+    const db = { select: () => ({ from: () => ({ where: () => ({ limit: async () => [listing] }) }) }), update: () => ({ set: () => ({ where: async () => [] }) }) };
+    getDbMock.mockResolvedValue(db as never);
+    await expect(appRouter.createCaller(contextFor("admin")).marketplace.admin.reviewListing({ listingId: 9, decision: "published" })).resolves.toEqual({ success: true });
+    expect(notifyMock).toHaveBeenCalledWith(2, "listing", "تم اعتماد إعلانك", expect.any(String), "/listings/9");
+  });
+
+  it("ينهي المزاد إداريًا ويحدد أعلى مزايد ثم يشعر البائع والفائز", async () => {
+    const auction = { ...bidRow.auction, id: 5, listingId: 9, status: "live" as const };
+    const listing = { id: 9, ownerId: 2, title: "سيارة اختبار" };
+    const topBid = { id: 91, auctionId: 5, bidderId: 13, amount: "13000", createdAt: 2 };
+    const select = vi.fn()
+      .mockReturnValueOnce({ from: () => ({ innerJoin: () => ({ where: () => ({ limit: async () => [{ auction, listing }] }) }) }) })
+      .mockReturnValueOnce({ from: () => ({ where: () => ({ orderBy: () => ({ limit: async () => [topBid] }) }) }) });
+    const db = { select, update: () => ({ set: () => ({ where: async () => [] }) }) };
+    getDbMock.mockResolvedValue(db as never);
+    await expect(appRouter.createCaller(contextFor("admin")).marketplace.admin.closeAuction({ auctionId: 5, action: "ended" })).resolves.toEqual({ success: true, winnerId: 13 });
+    expect(notifyMock).toHaveBeenCalledWith(2, "auction", "تم إنهاء المزاد", expect.any(String), "/listings/9");
+    expect(notifyMock).toHaveBeenCalledWith(13, "auction", "أصبحت أعلى مزايدة", expect.any(String), "/listings/9");
+  });
+});

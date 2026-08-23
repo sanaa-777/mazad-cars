@@ -17,6 +17,10 @@ const requireUser = t.middleware(async opts => {
     throw new TRPCError({ code: "UNAUTHORIZED", message: UNAUTHED_ERR_MSG });
   }
 
+  if (ctx.user.status === "suspended") {
+    throw new TRPCError({ code: "FORBIDDEN", message: "تم تعليق هذا الحساب. يرجى التواصل مع الدعم." });
+  }
+
   return next({
     ctx: {
       ...ctx,
@@ -27,7 +31,7 @@ const requireUser = t.middleware(async opts => {
 
 export const protectedProcedure = t.procedure.use(requireUser);
 
-export const adminProcedure = t.procedure.use(
+export const adminProcedure = t.procedure.use(requireUser).use(
   t.middleware(async opts => {
     const { ctx, next } = opts;
 
