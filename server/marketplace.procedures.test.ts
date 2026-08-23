@@ -48,6 +48,21 @@ describe("critical marketplace procedures", () => {
     expect(notifyMock).toHaveBeenCalledWith(2, "listing", "تم اعتماد إعلانك", expect.any(String), "/listings/9");
   });
 
+  it("يرسل الإعلان الصالح إلى المراجعة ويبلغ المشرفين النشطين", async () => {
+    const db = { insert: () => ({ values: async () => [{ insertId: 81 }] }), select: () => ({ from: () => ({ where: async () => [{ id: 44 }] }) }) };
+    getDbMock.mockResolvedValue(db as never);
+    const result = await appRouter.createCaller(contextFor()).marketplace.listings.save({ title: "تويوتا كامري 2022 فل كامل", description: "سيارة بحالة ممتازة، مفحوصة وجاهزة للاستخدام مع سجل صيانة واضح ومواصفات كاملة.", make: "تويوتا", model: "كامري", year: 2022, mileage: 42000, fuelType: "gasoline", transmission: "automatic", bodyType: "سيدان", condition: "excellent", city: "صنعاء", contactPhone: "777123456", showWhatsapp: false, allowNegotiation: true, saleType: "sale", askingPrice: 18500000, submitForReview: true });
+    expect(result).toEqual({ id: 81, status: "pending" });
+    expect(notifyMock).toHaveBeenCalledWith(44, "listing", "إعلان جديد بانتظار المراجعة", expect.any(String), "/admin");
+  });
+
+  it("يعيد إعلانات صاحب الحساب مع صورة الغلاف والمزاد لعرضها في الحساب", async () => {
+    const row = { listing: { id: 31, title: "سيارة صاحب الحساب", status: "pending" as const, askingPrice: "18000000" }, image: { id: 71, listingId: 31, url: "/manus-storage/listings/7/31/car.webp", sortOrder: 0 }, auction: null };
+    const db = { select: () => ({ from: () => ({ leftJoin: () => ({ leftJoin: () => ({ where: () => ({ orderBy: async () => [row] }) }) }) }) }) };
+    getDbMock.mockResolvedValue(db as never);
+    await expect(appRouter.createCaller(contextFor()).marketplace.listings.mine()).resolves.toEqual([row]);
+  });
+
   it("ينهي المزاد إداريًا ويحدد أعلى مزايد ثم يشعر البائع والفائز", async () => {
     const auction = { ...bidRow.auction, id: 5, listingId: 9, status: "live" as const };
     const listing = { id: 9, ownerId: 2, title: "سيارة اختبار" };
