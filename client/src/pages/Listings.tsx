@@ -1,12 +1,14 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Filter, Search } from "lucide-react";
+import { useLocation } from "wouter";
 import { ListingCard } from "@/components/ListingCard";
 import { MarketplaceLayout } from "@/components/MarketplaceLayout";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 
 export default function Listings() {
-  const [query, setQuery] = useState(""); const [make, setMake] = useState(""); const [city, setCity] = useState(""); const [saleType, setSaleType] = useState<"sale" | "auction" | "">(""); const [sort, setSort] = useState<"newest" | "priceAsc" | "priceDesc" | "yearDesc">("newest"); const [page, setPage] = useState(1);
+  const [location] = useLocation(); const queryFromUrl = () => new URLSearchParams(window.location.search).get("query") ?? ""; const [query, setQuery] = useState(queryFromUrl); const [make, setMake] = useState(""); const [city, setCity] = useState(""); const [saleType, setSaleType] = useState<"sale" | "auction" | "">(""); const [sort, setSort] = useState<"newest" | "priceAsc" | "priceDesc" | "yearDesc">("newest"); const [page, setPage] = useState(1);
+  useEffect(() => { setQuery(queryFromUrl()); setPage(1); }, [location]);
   const input = useMemo(() => ({ query: query || undefined, make: make || undefined, city: city || undefined, saleType: saleType || undefined, sort, page, pageSize: 12 }), [query, make, city, saleType, sort, page]);
   const result = trpc.marketplace.listings.list.useQuery(input);
   const totalPages = Math.max(1, Math.ceil((result.data?.total ?? 0) / 12));
