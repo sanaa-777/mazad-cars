@@ -201,11 +201,11 @@ function verifyUser(userId) {
       badge.innerHTML = '<i class="fas fa-check-circle"></i> موثق';
     }
   }
-  showNotification('✅ تم توثيق الحساب بنجاح', 'success');
+  showNotification('تم توثيق الحساب بنجاح', 'success');
 }
 
 function rejectUser(userId) {
-  showNotification('❌ تم رفض طلب التوثيق', 'danger');
+  showNotification('تم رفض طلب التوثيق', 'danger');
 }
 
 // ===== BAN USER =====
@@ -218,7 +218,7 @@ function banUser(userId) {
       badge.innerHTML = '<i class="fas fa-ban"></i> محظور';
     }
   }
-  showNotification('🚫 تم حظر المستخدم', 'danger');
+  showNotification('تم حظر المستخدم', 'danger');
 }
 
 // ===== FEATURE AUCTION =====
@@ -301,7 +301,7 @@ function exportTable(tableId) {
   link.href = URL.createObjectURL(blob);
   link.download = 'export.csv';
   link.click();
-  showNotification('📥 تم تصدير البيانات بنجاح', 'success');
+  showNotification('تم تصدير البيانات بنجاح', 'success');
 }
 
 // ===== DONUT CHART =====

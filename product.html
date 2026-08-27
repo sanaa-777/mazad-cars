@@ -746,8 +746,12 @@
 
     /* ===== RESPONSIVE ===== */
     @media (min-width: 768px) {
-      body { max-width: 480px; margin: 0 auto; box-shadow: 0 0 40px rgba(0,0,0,0.1); }
-      .bottom-nav { max-width: 480px; left: 50%; transform: translateX(-50%); }
+      body { max-width: 960px; margin: 0 auto; box-shadow: 0 0 40px rgba(0,0,0,0.1); }
+      .bottom-nav { max-width: 960px; left: 50%; transform: translateX(-50%); }
+    }
+    @media (min-width: 1024px) {
+      body { max-width: 1180px; }
+      .bottom-nav { max-width: 1180px; }
     }
 
     /* ===== ANIMATIONS ===== */
@@ -1077,11 +1081,17 @@
     // ===== ACTIONS =====
     function share() {
       if (navigator.share) {
-        navigator.share({ title: 'تويوتا لاندكروزر GXR 2020', url: window.location.href });
+        navigator.share({ title: 'تويوتا لاندكروزر GXR 2020', url: window.location.href }).catch(() => {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          if (window.showToast) showToast('تم نسخ رابط المزاد', 'success');
+        }).catch(() => {
+          if (window.showToast) showToast('يمكنك نسخ الرابط من شريط المتصفح', 'info');
+        });
       }
     }
     function showInterest() {
-      alert('✅ تم تسجيل اهتمامك! سنُعلمك عند بدء المزاد.');
+      if (window.showToast) showToast('تم تسجيل اهتمامك بالمزاد', 'success');
     }
     function openWhatsApp() {
       window.open('https://wa.me/967700000000?text=مهتم بسيارة تويوتا لاندكروزر GXR 2020', '_blank');
@@ -1090,10 +1100,15 @@
       window.open('tel:+967700000000');
     }
     function messageSeller() {
-      alert('💬 سيتم فتح نافذة المراسلة...');
+      window.location.href = 'chat.html';
     }
     function showBidHistory() {
-      alert('📋 سجل المزايدات:\n\n1. أحمد - 41,500,000 ر.ي\n2. محمد - 40,000,000 ر.ي\n3. سالم - 38,500,000 ر.ي\n4. خالد - 37,000,000 ر.ي\n5. عمر - 35,500,000 ر.ي\n6. علي - 34,000,000 ر.ي\n7. يوسف - 32,000,000 ر.ي');
+      const history = document.querySelector('.bid-history-list');
+      if (history) {
+        history.hidden = !history.hidden;
+        return;
+      }
+      if (window.showToast) showToast('سجل المزايدات متاح للعرض بعد تسجيل الدخول', 'info');
     }
 
     // ===== ANIMATE ON SCROLL =====

@@ -235,3 +235,133 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarouselDots('heroCarousel', '.hero-dot');
   initCarouselDots('featuredCarousel', '.carousel-dots .dot');
 });
+
+
+// ===== GLOBAL UX POLISH =====
+function showToast(message, type = 'info') {
+  let host = document.getElementById('toastHost');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'toastHost';
+    host.className = 'toast-host';
+    host.setAttribute('aria-live', 'polite');
+    document.body.appendChild(host);
+  }
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.setAttribute('role', 'status');
+  toast.textContent = message;
+  host.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('is-visible'));
+  window.setTimeout(() => {
+    toast.classList.remove('is-visible');
+    window.setTimeout(() => toast.remove(), 220);
+  }, 2600);
+}
+window.showToast = showToast;
+
+function normalizeArabic(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/[ًٌٍَُِّْـ]/g, '')
+    .trim();
+}
+window.normalizeArabic = normalizeArabic;
+
+function filterSearchResults() {
+  const input = document.getElementById('searchInput');
+  const results = document.getElementById('searchResults');
+  if (!results) return;
+  const query = normalizeArabic(input ? input.value : '');
+  const activeFilters = Array.from(document.querySelectorAll('.filter-opt.active'))
+    .map(option => normalizeArabic(option.textContent))
+    .filter(Boolean);
+  const cards = Array.from(results.querySelectorAll('.auction-card'));
+  let visible = 0;
+  cards.forEach(card => {
+    const text = normalizeArabic(card.textContent);
+    const queryMatches = !query || text.includes(query);
+    const filtersMatch = activeFilters.every(filter => {
+      const words = filter.split(/\\s+/).filter(word => word.length > 2);
+      return words.length === 0 || words.some(word => text.includes(word));
+    });
+    const matches = queryMatches && filtersMatch;
+    card.hidden = !matches;
+    if (matches) visible++;
+  });
+  const count = document.getElementById('resultsCount');
+  if (count) count.textContent = `${visible} نتيجة`;
+  let empty = document.getElementById('searchEmptyState');
+  if (!visible) {
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.id = 'searchEmptyState';
+      empty.className = 'empty-state search-empty-state';
+      empty.innerHTML = '<i class="fas fa-search"></i><h3>لا توجد نتائج</h3><p>جرّب اسم سيارة أو مدينة مختلفة.</p>';
+      results.insertAdjacentElement('afterend', empty);
+    }
+    empty.hidden = false;
+  } else if (empty) {
+    empty.hidden = true;
+  }
+}
+window.filterSearchResults = filterSearchResults;
+
+function initGlobalUX() {
+  document.querySelectorAll('img').forEach((img, index) => {
+    img.decoding = 'async';
+    if (index > 0 && !img.hasAttribute('loading')) img.loading = 'lazy';
+  });
+
+  document.querySelectorAll('[onclick]').forEach(el => {
+    if (el.matches('button, a, input, select, textarea')) return;
+    if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    el.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        el.click();
+      }
+    });
+  });
+
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', filterSearchResults);
+    searchInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter') filterSearchResults();
+    });
+    document.querySelectorAll('.filter-opt').forEach(option => {
+      option.addEventListener('click', () => window.setTimeout(filterSearchResults, 0));
+    });
+    filterSearchResults();
+  }
+
+  // Prefetch local pages on intent so navigation feels immediate without extra dependencies.
+  const prefetched = new Set();
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href === '#' || /^(https?:|mailto:|tel:|javascript:)/i.test(href)) return;
+    const prefetch = () => {
+      if (prefetched.has(href)) return;
+      prefetched.add(href);
+      const hint = document.createElement('link');
+      hint.rel = 'prefetch';
+      hint.href = href;
+      document.head.appendChild(hint);
+    };
+    link.addEventListener('mouseenter', prefetch, { once: true });
+    link.addEventListener('touchstart', prefetch, { once: true, passive: true });
+  });
+
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.bottom-nav a[href]').forEach(link => {
+    const target = link.getAttribute('href').split('#')[0];
+    link.classList.toggle('active', target === currentPage);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initGlobalUX);

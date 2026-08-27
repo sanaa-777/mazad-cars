@@ -287,7 +287,17 @@
       document.getElementById('auctionSection').style.display = type === 'auction' ? '' : 'none';
     }
     function publishAd() {
-      alert('✅ تم نشر إعلانك بنجاح!\nسيظهر خلال دقائق بعد المراجعة.');
+      const required = Array.from(document.querySelectorAll('.form-label .required'));
+      const emptyRequired = required.some(marker => {
+        const group = marker.closest('.form-group');
+        const field = group && group.querySelector('input, select, textarea');
+        return field && !field.value.trim();
+      });
+      if (emptyRequired) {
+        if (window.showToast) showToast('أكمل الحقول المطلوبة قبل النشر', 'error');
+        return;
+      }
+      if (window.showToast) showToast('تم حفظ الإعلان كمسودة للمعاينة', 'success');
     }
   </script>
 </body>

@@ -51,7 +51,7 @@
     <div class="notif-item" onclick="location.href='product.html'">
       <div class="notif-icon ni-win"><i class="fas fa-trophy"></i></div>
       <div class="notif-content">
-        <div class="notif-text"><strong>🎉 تهانينا!</strong> فزت بمزاد مرسيدس بنز C200 بسعر <strong>78,500,000 ر.ي</strong></div>
+        <div class="notif-text"><strong>تهانينا!</strong> فزت بمزاد مرسيدس بنز C200 بسعر <strong>78,500,000 ر.ي</strong></div>
         <div class="notif-time">منذ ساعة</div>
       </div>
     </div>
@@ -91,7 +91,7 @@
     <div class="notif-item">
       <div class="notif-icon ni-system"><i class="fas fa-shield-alt"></i></div>
       <div class="notif-content">
-        <div class="notif-text"><strong>تم التحقق!</strong> حسابك الآن موثق وستظهر علامة ✓ بجانب اسمك</div>
+        <div class="notif-text"><strong>تم التحقق!</strong> حسابك الآن موثق وستظهر علامة موثّق بجانب اسمك</div>
         <div class="notif-time">منذ يومين</div>
       </div>
     </div>
@@ -123,7 +123,7 @@
       document.querySelectorAll('.notif-item.unread').forEach(item => {
         item.classList.remove('unread');
       });
-      alert('✅ تم تحديد جميع الإشعارات كمقروءة');
+      if (window.showToast) showToast('تم تحديد جميع الإشعارات كمقروءة', 'success');
     }
   </script>
 </body>

@@ -375,7 +375,7 @@
     }
     function doLogin() {
       const phone = document.getElementById('loginPhone').value;
-      if (!phone) { alert('أدخل رقم الجوال'); return; }
+      if (!phone) { if (window.showToast) showToast('أدخل رقم الجوال أولاً', 'error'); return; }
       document.getElementById('loginSection').style.display = 'none';
       document.getElementById('registerSection').style.display = 'none';
       document.getElementById('otpSection').style.display = '';
@@ -410,7 +410,7 @@
       }, 1000);
     }
     function resendOTP() {
-      alert('✅ تم إعادة إرسال الرمز');
+      if (window.showToast) showToast('تمت إعادة إرسال رمز التحقق', 'success');
       startOTPTimer();
     }
   </script>

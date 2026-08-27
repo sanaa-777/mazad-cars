@@ -261,10 +261,15 @@
     function applyFilters() {
       document.getElementById('resultsHeader').style.display = 'flex';
       toggleFilterPanel();
-      document.getElementById('resultsCount').textContent = '6 نتائج';
+      if (window.filterSearchResults) window.filterSearchResults();
+      if (window.showToast) showToast('تم تطبيق الفلاتر', 'success');
     }
     function resetFilters() {
       document.querySelectorAll('.filter-opt').forEach(o => o.classList.remove('active'));
+      const input = document.getElementById('searchInput');
+      if (input) input.value = '';
+      if (window.filterSearchResults) window.filterSearchResults();
+      if (window.showToast) showToast('تمت إعادة ضبط البحث', 'info');
     }
     // Show results header on load
     document.getElementById('resultsHeader').style.display = 'flex';
